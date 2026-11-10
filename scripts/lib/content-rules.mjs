@@ -39,6 +39,20 @@ export function findViolations(text, which) {
 }
 
 /**
+ * One quoted attribute value and where it starts in the tag's attribute text. The opening quote
+ * chooses the delimiter, so the other quote may appear inside the value.
+ * @param {string} attrs
+ * @param {string} attribute
+ * @returns {{ value: string, index: number } | undefined}
+ */
+function attributeValue(attrs, attribute) {
+  const match = new RegExp(`(?:^|\\s)${attribute}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, 'di').exec(attrs);
+  if (!match) return undefined;
+  const group = match[1] !== undefined ? 1 : 2;
+  return { value: match[group], index: match.indices[group][0] };
+}
+
+/**
  * Values a visitor, search engine or assistive technology reads from HTML attributes: a page's meta
  * description, its `og:` metadata, image alt text, and title and aria-label attributes. `visibleText`
  * strips attributes, so these values need their own pass.
@@ -49,17 +63,19 @@ export function readableAttributes(html) {
   const lineOf = (index) => html.slice(0, index).split('\n').length;
   /** @type {{ value: string, line: number }[]} */
   const values = [];
-  for (const match of html.matchAll(/<meta\b([^>]*)>/gi)) {
+  for (const match of html.matchAll(/<meta\b([^>]*)>/gid)) {
     const attrs = match[1];
-    const name = /\bname\s*=\s*["']([^"']*)["']/i.exec(attrs)?.[1]?.toLowerCase();
-    const property = /\bproperty\s*=\s*["']([^"']*)["']/i.exec(attrs)?.[1]?.toLowerCase();
-    const content = /\bcontent\s*=\s*["']([^"']*)["']/i.exec(attrs);
+    const attrsAt = match.indices[1][0];
+    const name = attributeValue(attrs, 'name')?.value.toLowerCase();
+    const property = attributeValue(attrs, 'property')?.value.toLowerCase();
+    const content = attributeValue(attrs, 'content');
     if (!content) continue;
     if (name !== 'description' && !property?.startsWith('og:')) continue;
-    values.push({ value: content[1], line: lineOf(match.index + match[0].indexOf(content[0])) });
+    values.push({ value: content.value, line: lineOf(attrsAt + content.index) });
   }
-  for (const match of html.matchAll(/(?:^|\s)(?:alt|title|aria-label)\s*=\s*["']([^"']*)["']/gi)) {
-    values.push({ value: match[1], line: lineOf(match.index + match[0].indexOf(match[1])) });
+  for (const match of html.matchAll(/(?:^|\s)(?:alt|title|aria-label)\s*=\s*(?:"([^"]*)"|'([^']*)')/gid)) {
+    const group = match[1] !== undefined ? 1 : 2;
+    values.push({ value: match[group], line: lineOf(match.indices[group][0]) });
   }
   return values;
 }
