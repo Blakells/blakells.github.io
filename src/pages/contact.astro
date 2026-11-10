@@ -1,0 +1,15 @@
+---
+import ContactStrip from '../components/ContactStrip.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact · Blake Bailey" description="How to reach Blake Bailey: email, GitHub and phone. Open to remote roles in the US.">
+  <div class="container contact-page">
+    <h1>Contact</h1>
+    <p class="lede">Email is the best way to reach me. I'm open to remote roles in the US in automation and AI agent engineering.</p>
+    <ContactStrip full />
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-page { display: grid; gap: var(--space-5); padding-block: var(--space-7) 0; max-width: 48rem; margin-inline: auto; }
+</style>

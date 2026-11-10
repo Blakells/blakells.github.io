@@ -1,0 +1,21 @@
+---
+import Button from '../components/Button.astro';
+import TraceBand from '../components/TraceBand.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Off track · Blake Bailey" description="This page doesn't exist. Head back to the start or see Blake Bailey's work.">
+  <div class="container off-track">
+    <TraceBand height={48} />
+    <h1>Off track</h1>
+    <p class="lede">This page isn't on the map. Rejoin from the start, or see what I've built.</p>
+    <div class="off-track__actions">
+      <Button href="/">Back to the start</Button>
+      <Button href="/work/" variant="secondary">See my work</Button>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .off-track { display: grid; gap: var(--space-4); padding-block: var(--space-7) 0; }
+  .off-track__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+</style>

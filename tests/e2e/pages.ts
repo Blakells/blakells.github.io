@@ -2,4 +2,5 @@
 export const PAGES: string[] = [
   '/', '/work/', '/work/preflight/', '/work/lantern-hollow-game/', '/about/',
   '/writing/', '/writing/enforcing-dry-runs-in-the-browser/', '/writing/testing-an-agent-that-must-never-submit/',
+  '/contact/',
 ];
