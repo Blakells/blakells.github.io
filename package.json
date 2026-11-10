@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/resume-pdf.mjs",
     "preview": "node scripts/serve.mjs",
     "check:types": "astro check",
     "test:unit": "vitest run",

@@ -18,4 +18,10 @@ test.describe('resume page', () => {
     await expect(page.locator('.site-footer')).toBeHidden();
     await expect(page.getByRole('link', { name: 'Download the PDF' })).toBeHidden();
   });
+
+  test('serves the PDF', async ({ request }) => {
+    const response = await request.get('/blake-bailey-resume.pdf');
+    expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toBe('application/pdf');
+  });
 });
