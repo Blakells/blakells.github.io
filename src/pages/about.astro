@@ -1,0 +1,105 @@
+---
+import ChannelLabel from '../components/ChannelLabel.astro';
+import FactList from '../components/FactList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../lib/site';
+
+const facts = [
+  { label: 'Based in', value: site.location },
+  { label: 'Work', value: site.work },
+  { label: 'Hardware', value: site.inferenceServer },
+  { label: 'Education', value: `${site.degree.name}, ${site.degree.school} (${site.degree.status})` },
+  { label: 'Racing', value: 'WERA and ASRA motorcycle road racing' },
+];
+---
+<BaseLayout
+  title="About · Blake Bailey"
+  description="About Blake Bailey: building AI agents and automation, motorcycle racing and telemetry, and the remote roles he is looking for."
+>
+  <article class="container about">
+    <header class="about__header">
+      <h1>About</h1>
+      <p class="lede">
+        I've always been a gamer and good with computers, and what I enjoy most is understanding how a system
+        works from the top down.
+      </p>
+    </header>
+
+    <div class="about__grid">
+      <div class="about__story">
+        <div class="prose">
+          <p>
+            Building with AI is the most fun I've had. Today the main limit on what you can build is the ideas
+            you bring to it. Lately that has meant <a href="/work/preflight/">Preflight</a>, an agent that fills
+            job applications with its dry runs enforced inside the browser, and
+            <a href="/work/lantern-hollow-game/">Lantern Hollow</a>, a small browser game.
+          </p>
+          <p>
+            I'm looking for remote roles in the US in automation and AI agent engineering, and I'm glad to work
+            across security and general software too.
+          </p>
+        </div>
+
+        <section class="about__section" aria-labelledby="models-h">
+          <ChannelLabel channel="01" name="Local models" />
+          <h2 id="models-h">Local models</h2>
+          <p>{site.inferenceServer}. It runs models on my own hardware.</p>
+        </section>
+
+        <section class="about__section" aria-labelledby="racing-h">
+          <ChannelLabel channel="02" name="Off the keyboard" />
+          <h2 id="racing-h">Racing and telemetry</h2>
+          <div class="prose">
+            <p>
+              I race motorcycles in WERA and ASRA. In the 2026 season I raced and tested at VIR, Barber, Road
+              Atlanta, Roebling Road and Carolina Motorsports Park.
+            </p>
+            <p>
+              Telemetry is how I improve as a rider. I analyze my AiM Solo 2 DL data in RaceStudio 3 with custom
+              math channels, which pinpointed missed downshifts, clutch slip and a lean-angle asymmetry that were
+              costing lap time. Knowing where the time goes tells me what to work on next.
+            </p>
+            <p>I also coach riders as a volunteer, on riding technique and bike setup.</p>
+          </div>
+        </section>
+
+        <section class="about__section" aria-labelledby="investing-h">
+          <ChannelLabel channel="03" name="Investing" />
+          <h2 id="investing-h">Investing</h2>
+          <p>
+            Since 2017 I've managed my own investments full time, including decentralized finance and on-chain
+            protocols. Every allocation, entry and exit decision has been mine, through market cycles that
+            included several major drawdowns.
+          </p>
+        </section>
+
+        <section class="about__section" aria-labelledby="education-h">
+          <ChannelLabel channel="04" name="Education" />
+          <h2 id="education-h">Education</h2>
+          <p>
+            I'm two courses from finishing a {site.degree.name} at {site.degree.school} ({site.degree.status}).
+            Before that I studied computer science at Francis Marion University and software engineering at
+            Western Governors University.
+          </p>
+        </section>
+      </div>
+
+      <div class="about__facts" role="group" aria-label="Facts">
+        <FactList items={facts} />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .about { display: grid; gap: var(--space-6); padding-block: var(--space-7) 0; }
+  .about__header { display: grid; gap: var(--space-4); }
+  .about__grid { display: grid; gap: var(--space-7); grid-template-columns: minmax(0, 1fr); }
+  .about__story { display: grid; gap: var(--space-7); }
+  .about__section { display: grid; gap: var(--space-3); max-width: var(--measure); }
+  .about__section h2 { font-size: var(--step-2); }
+  @media (min-width: 60rem) {
+    .about__grid { grid-template-columns: minmax(0, 1fr) 20rem; }
+    .about__facts { position: sticky; top: var(--space-5); align-self: start; }
+  }
+</style>
