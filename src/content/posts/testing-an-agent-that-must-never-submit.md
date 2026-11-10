@@ -74,7 +74,7 @@ hook's real subprocess entry point.
 
 ## What CI taught me
 
-The first CI run failed, and the reason was not the code under test. GitHub Actions asks Rich for
+A CI run failed, and the reason was not the code under test. GitHub Actions asks Rich for
 color, so the CLI help text carried color codes that the local run never showed, and the help test
 missed the command names it was looking for on every CI runner. The fix strips the escape sequences
 before matching, which is the kind of bug that only shows up when the test runs somewhere other than
