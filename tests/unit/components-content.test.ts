@@ -29,6 +29,13 @@ describe('ProjectCard', () => {
     const html = await container.renderToString(ProjectCard, { props: { ...props, stat: undefined } });
     expect(html).not.toContain('card__stat');
   });
+
+  it('adds a named play link only for a project with a play path', async () => {
+    const game = { ...props, title: 'Lantern Hollow', href: '/work/lantern-hollow-game/', play: '/lantern-hollow/' };
+    expect(await container.renderToString(ProjectCard, { props: game }))
+      .toMatch(/<a href="\/lantern-hollow\/"[^>]*>Play Lantern Hollow<\/a>/);
+    expect(await container.renderToString(ProjectCard, { props })).not.toContain('card__play');
+  });
 });
 
 describe('ArchiveRow', () => {

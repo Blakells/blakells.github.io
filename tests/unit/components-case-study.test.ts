@@ -30,7 +30,17 @@ describe('LayerTable', () => {
     expect(html).toContain('<caption');
     expect(html.match(/<th scope="col"/g)).toHaveLength(3);
     expect(html.match(/<tr/g)).toHaveLength(3);
-    expect(html).toMatch(/<code[^>]*>apply\/helpers\/dry_run_guard\.js<\/code>/);
+    expect(html).toMatch(/<code[^>]*>apply\/<wbr[^>]*>helpers\/<wbr[^>]*>dry_run_guard\.js<\/code>/);
+  });
+
+  it('puts each file in its own code element, breakable only after a slash', async () => {
+    const html = await container.renderToString(LayerTable, {
+      props: { layers: [
+        { layer: 'Dedupe', where: 'dedupe.py, apply/posting_identity.py', prevents: 'Applying twice.' },
+      ] },
+    });
+    expect(html).toMatch(/<code[^>]*>dedupe\.py<\/code>\s*<code[^>]*>apply\/<wbr[^>]*>posting_identity\.py<\/code>/);
+    expect(html).not.toContain(',');
   });
 });
 

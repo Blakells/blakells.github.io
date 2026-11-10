@@ -9,6 +9,9 @@ interface Props {
   caption?: string;
 }
 const { layers, caption = 'Safety layers' } = Astro.props;
+// One code element per file, breakable only after a slash, so a narrow column never splits a file name.
+const files = (where: string) => where.split(/,\s*/);
+const parts = (path: string) => path.split('/');
 ---
 <section class="layers" tabindex="0" aria-label={caption}>
   <table>
@@ -18,7 +21,15 @@ const { layers, caption = 'Safety layers' } = Astro.props;
     </thead>
     <tbody>
       {layers.map((row) => (
-        <tr><td>{row.layer}</td><td><code>{row.where}</code></td><td>{row.prevents}</td></tr>
+        <tr>
+          <td>{row.layer}</td>
+          <td class="layers__where">
+            {files(row.where).map((path) => (
+              <code>{parts(path).map((part, i, all) => (i < all.length - 1 ? <>{part}/<wbr /></> : part))}</code>
+            ))}
+          </td>
+          <td>{row.prevents}</td>
+        </tr>
       ))}
     </tbody>
   </table>
@@ -35,4 +46,6 @@ const { layers, caption = 'Safety layers' } = Astro.props;
     font-weight: 500; color: var(--color-muted); background: var(--color-panel-raised);
   }
   td:first-child { color: var(--color-heading); font-weight: 600; white-space: nowrap; }
+  .layers__where code { display: block; width: fit-content; overflow-wrap: normal; }
+  .layers__where code + code { margin-top: var(--space-1); }
 </style>

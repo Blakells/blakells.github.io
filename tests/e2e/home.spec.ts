@@ -17,6 +17,7 @@ test.describe('home page', () => {
     const titles = page.locator('#featured article h3');
     await expect(titles).toHaveText(['Preflight', 'Lantern Hollow']);
     await expect(page.locator('#featured article').first()).toContainText(/\d+ tests · CI on Linux \+ macOS/);
+    await expect(page.locator('#featured').getByRole('link', { name: 'Play Lantern Hollow' })).toHaveAttribute('href', '/lantern-hollow/');
   });
 
   test('lists the seven earlier projects and links to them', async ({ page }) => {

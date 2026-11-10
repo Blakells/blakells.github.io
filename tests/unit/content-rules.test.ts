@@ -79,12 +79,12 @@ describe('readableAttributes', () => {
   it('reads a whole value that contains an apostrophe', () => {
     const html = [
       `<meta name="description" content="It's $5 a month">`,
-      `<img alt="Blake's rate is $50 a month" src="/x.png">`,
+      `<img alt="The rate is $50 a month" src="/x.png">`,
       `<a title='He said "hi" for $5'>Hi</a>`,
     ].join('\n');
     expect(readableAttributes(html).map((v) => v.value)).toEqual([
       "It's $5 a month",
-      "Blake's rate is $50 a month",
+      "The rate is $50 a month",
       'He said "hi" for $5',
     ]);
   });
@@ -92,7 +92,7 @@ describe('readableAttributes', () => {
   it(`lets the money rule see a dollar amount after an apostrophe`, () => {
     const html = [
       `<meta name="description" content="It's $5 a month">`,
-      `<img alt="Blake's rate is $50 a month" src="/x.png">`,
+      `<img alt="The rate is $50 a month" src="/x.png">`,
     ].join('\n');
     const found = readableAttributes(html).flatMap((v) => findViolations(visibleText(v.value), 'prose'));
     expect(found.map((v) => v.rule)).toEqual(['money', 'money']);

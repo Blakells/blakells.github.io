@@ -10,8 +10,10 @@ interface Props {
   summary: string;
   tags: string[];
   stat?: string;
+  /** Where the project can be played, for example "/lantern-hollow/". */
+  play?: string;
 }
-const { channel, label, title, href, summary, tags, stat } = Astro.props;
+const { channel, label, title, href, summary, tags, stat, play } = Astro.props;
 ---
 <article class="card">
   <ChannelLabel channel={channel} name={label} />
@@ -23,6 +25,7 @@ const { channel, label, title, href, summary, tags, stat } = Astro.props;
     </ul>
   )}
   {stat && <p class="card__stat">{stat}</p>}
+  {play && <p class="card__play"><a href={play}>Play {title}</a></p>}
 </article>
 
 <style>
@@ -40,4 +43,5 @@ const { channel, label, title, href, summary, tags, stat } = Astro.props;
     border: 1px solid var(--color-border-strong); border-radius: 999px; padding: 0.1em 0.7em;
   }
   .card__stat { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-muted); }
+  .card__play { font-weight: 600; }
 </style>

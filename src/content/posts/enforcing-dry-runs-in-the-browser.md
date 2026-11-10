@@ -74,7 +74,8 @@ The guard intercepts clicks, keypresses and form submissions. It does not interc
 A page whose own script sends the application with `fetch` or `XMLHttpRequest` is not stopped in the
 page, and I would rather say that plainly than imply the guard is total.
 
-Two checks exist for what slips through. The confirmation backstop reads every tool result during a
+Two checks cover what slips through: the confirmation backstop here, and the audit in the next
+section. The confirmation backstop reads every tool result during a
 run for the words an ATS uses once an application is in. Text alone is not enough, so it counts a
 confirmation only after a submit-like action and ignores conditional phrasing, a question, a draft
 notice, or another tab. A page that still shows a form with a step button is not a confirmation. A

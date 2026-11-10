@@ -48,6 +48,7 @@ const ch: Record<string, string> = Object.fromEntries(sectionNames.map((name, i)
           summary={project.data.summary}
           tags={project.data.tags}
           stat={project.data.stat ? fillFacts(project.data.stat) : undefined}
+          play={project.data.play}
         />
       ))}
     </div>
