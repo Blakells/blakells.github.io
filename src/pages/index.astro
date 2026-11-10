@@ -1,6 +1,123 @@
 ---
+import Button from '../components/Button.astro';
+import ChannelLabel from '../components/ChannelLabel.astro';
+import ContactStrip from '../components/ContactStrip.astro';
+import FactList from '../components/FactList.astro';
+import PostRow from '../components/PostRow.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import TraceBand from '../components/TraceBand.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { channel, earlierWork, featuredProjects, postHref, projectHref, publishedPosts } from '../lib/collections';
+import { fillFacts } from '../lib/facts';
+import { site } from '../lib/site';
+
+const projects = await featuredProjects();
+const earlier = await earlierWork();
+const posts = (await publishedPosts()).slice(0, 2);
+
+// The featured cards are CH·01-02; the sections after them continue the count.
+const sectionNames = ['Earlier work', 'About', ...(posts.length > 0 ? ['Writing'] : []), 'Contact'];
+const ch: Record<string, string> = Object.fromEntries(sectionNames.map((name, i) => [name, channel(projects.length + i)]));
 ---
-<BaseLayout title="Blake Bailey" description="Temporary home page.">
-  <div class="container"><h1>Blake Bailey</h1></div>
+<BaseLayout
+  title={`${site.name} · ${site.role}`}
+  description="Blake Bailey builds AI agents and automation, and the tests that prove they are safe to run. Open to remote roles in the US."
+>
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="container hero__inner">
+      <TraceBand />
+      <h1 id="hero-name">{site.name}</h1>
+      <p class="hero__role">{site.role}</p>
+      <p class="lede">{site.tagline}</p>
+      <div class="hero__actions">
+        <Button href={projectHref('preflight')}>View Preflight</Button>
+        <Button href="/contact/" variant="secondary">Get in touch</Button>
+      </div>
+    </div>
+  </section>
+
+  <section id="featured" class="section container" aria-labelledby="featured-h">
+    <h2 id="featured-h">Featured work</h2>
+    <div class="cards">
+      {projects.map((project, index) => (
+        <ProjectCard
+          channel={channel(index)}
+          label={project.data.label}
+          title={project.data.title}
+          href={projectHref(project.id)}
+          summary={project.data.summary}
+          tags={project.data.tags}
+          stat={project.data.stat ? fillFacts(project.data.stat) : undefined}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="earlier-h">
+    <ChannelLabel channel={ch['Earlier work']} name="Earlier work" />
+    <h2 id="earlier-h">Earlier work</h2>
+    <p>Learning projects from 2020: Node.js APIs, real-time chat, React front ends and a full-stack store.</p>
+    <ul id="earlier-strip" class="strip">
+      {earlier.map((item) => <li>{item.data.title}</li>)}
+    </ul>
+    <p><a href="/work/#earlier">All earlier work</a></p>
+  </section>
+
+  <section class="section container" aria-labelledby="about-h">
+    <ChannelLabel channel={ch['About']} name="About" />
+    <h2 id="about-h">About</h2>
+    <div class="about">
+      <p class="lede">
+        I build AI agents and the automation around them, and I like knowing exactly how a system works before
+        I trust it. Away from the keyboard I race motorcycles and coach riders.
+      </p>
+      <FactList
+        items={[
+          { label: 'Based in', value: site.location },
+          { label: 'Work', value: site.work },
+          { label: 'Hardware', value: site.inferenceServer },
+        ]}
+      />
+    </div>
+    <p><a href="/about/">More about me</a></p>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="section container" aria-labelledby="writing-h">
+      <ChannelLabel channel={ch['Writing']} name="Writing" />
+      <h2 id="writing-h">Writing</h2>
+      <ul class="posts">
+        {posts.map((post) => (
+          <PostRow title={post.data.title} href={postHref(post.id)} date={post.data.date} description={post.data.description} />
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section id="contact" class="section container" aria-labelledby="contact-h">
+    <ChannelLabel channel={ch['Contact']} name="Contact" />
+    <h2 id="contact-h">Get in touch</h2>
+    <ContactStrip />
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    border-bottom: 1px solid var(--color-border);
+    background-image: radial-gradient(80% 70% at 80% 0%, rgb(255 91 31 / 0.09), transparent 60%);
+  }
+  .hero__inner { display: grid; gap: var(--space-4); padding-block: var(--space-7) var(--space-8); }
+  .hero__role {
+    font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: var(--label-tracking);
+    text-transform: uppercase; color: var(--color-accent);
+  }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--space-5); }
+  .strip { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+  .strip li {
+    font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-heading);
+    border: 1px solid var(--color-border); border-radius: 999px; padding: 0.15em 0.75em;
+  }
+  .about { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); align-items: start; }
+  .posts { list-style: none; margin: 0; padding: 0; }
+</style>
