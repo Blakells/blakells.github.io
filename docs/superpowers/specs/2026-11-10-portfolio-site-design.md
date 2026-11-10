@@ -157,7 +157,7 @@ A post about the inference server comes after the server is built.
 
 The page lists:
 
-- `blake@blakells.dev` (the proposed address; Blake confirms it)
+- `blake@blakells.dev`
 - github.com/Blakells
 - (843) 616-1069
 - Florence, SC, open to remote roles in the US
@@ -322,8 +322,8 @@ those in section 2.
 
 | When | Item |
 |---|---|
-| Now | Confirm the public address (proposed: `blake@blakells.dev`) and set up Cloudflare Email Routing for it, with the catch-all. |
-| Now | Add `blakells.dev` as a verified domain in his GitHub account settings and put the TXT record it gives into Cloudflare. |
+| Done | `blake@blakells.dev` confirmed as the public address; Cloudflare Email Routing set up for it, with the catch-all. |
+| Done | `blakells.dev` added as a verified domain in his GitHub account settings, with its TXT record in Cloudflare. |
 | Before launch | Approval or edits on the About copy; optionally a headshot and a racing photo. |
 | Before launch | A sentence or two on how the data logger changed his riding. |
 | Before launch | What he has actually done with local models so far. |
