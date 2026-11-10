@@ -1,0 +1,24 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = 'Honest note' } = Astro.props;
+---
+<div class="note" role="note" aria-label={title}>
+  <p class="note__title">{title}</p>
+  <div class="note__body"><slot /></div>
+</div>
+
+<style>
+  .note {
+    display: grid; gap: var(--space-2);
+    background: var(--color-panel); border: 1px solid var(--color-border-strong);
+    border-left: 3px solid var(--color-accent); border-radius: var(--radius); padding: var(--space-4) var(--space-5);
+  }
+  .note__title {
+    font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: var(--label-tracking);
+    text-transform: uppercase; color: var(--color-accent);
+  }
+  .note__body { display: grid; gap: var(--space-2); }
+  .note__body :global(ul) { margin: 0; padding-left: 1.25em; display: grid; gap: var(--space-2); }
+</style>

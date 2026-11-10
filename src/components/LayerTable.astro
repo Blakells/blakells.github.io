@@ -1,0 +1,37 @@
+---
+interface Layer {
+  layer: string;
+  where: string;
+  prevents: string;
+}
+interface Props {
+  layers: Layer[];
+  caption?: string;
+}
+const { layers, caption = 'Safety layers' } = Astro.props;
+---
+<div class="layers">
+  <table>
+    <caption class="visually-hidden">{caption}</caption>
+    <thead>
+      <tr><th scope="col">Layer</th><th scope="col">Where</th><th scope="col">What it prevents</th></tr>
+    </thead>
+    <tbody>
+      {layers.map((row) => (
+        <tr><td>{row.layer}</td><td><code>{row.where}</code></td><td>{row.prevents}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .layers { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-panel); }
+  table { width: 100%; min-width: 36rem; border-collapse: collapse; font-size: 0.9375rem; }
+  th, td { text-align: left; vertical-align: top; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border); }
+  tbody tr:last-child td { border-bottom: 0; }
+  th {
+    font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 500; color: var(--color-muted); background: var(--color-panel-raised);
+  }
+  td:first-child { color: var(--color-heading); font-weight: 600; white-space: nowrap; }
+</style>
