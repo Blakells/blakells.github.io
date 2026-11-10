@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { findViolations, visibleText } from '../../scripts/lib/content-rules.mjs';
+import { findViolations, readableAttributes, visibleText } from '../../scripts/lib/content-rules.mjs';
 
 const ids = (text: string, rules: 'all' | 'general' | 'prose' = 'all') => findViolations(text, rules).map((v) => v.rule);
 
@@ -43,5 +43,36 @@ describe('visibleText', () => {
   it('drops scripts, styles and tags and decodes common entities', () => {
     const html = '<style>.a{}</style><p>Fish &amp; chips</p><script>var x = "$5";</script>';
     expect(visibleText(html).trim()).toBe('Fish & chips');
+  });
+});
+
+describe('readableAttributes', () => {
+  it('collects the attribute text visitors, search and assistive technology can read', () => {
+    const html = [
+      '<meta name="description" content="I save $500 a month">',
+      '<meta property="og:title" content="A $300 bonus">',
+      '<meta name="theme-color" content="#111316">',
+      '<img alt="a $300 bonus" src="/x.png">',
+      '<a title="Resume" aria-label="Open resume" href="/resume/">Resume</a>',
+      '<span data-title="not an attribute to check"></span>',
+    ].join('\n');
+    expect(readableAttributes(html).map((v) => v.value)).toEqual([
+      'I save $500 a month',
+      'A $300 bonus',
+      'a $300 bonus',
+      'Resume',
+      'Open resume',
+    ]);
+  });
+
+  it('reports the line each attribute is on', () => {
+    const html = '<p>one</p>\n<p>two</p>\n<img alt="a $5 fee" src="/x.png">';
+    expect(readableAttributes(html)).toEqual([{ value: 'a $5 fee', line: 3 }]);
+  });
+
+  it('lets the money rule see a dollar amount in an attribute', () => {
+    const html = '<meta name="description" content="I save $500 a month">';
+    const found = readableAttributes(html).flatMap((v) => findViolations(visibleText(v.value), 'prose'));
+    expect(found).toEqual([{ rule: 'money', message: 'a dollar amount', line: 1 }]);
   });
 });

@@ -39,6 +39,32 @@ export function findViolations(text, which) {
 }
 
 /**
+ * Values a visitor, search engine or assistive technology reads from HTML attributes: a page's meta
+ * description, its `og:` metadata, image alt text, and title and aria-label attributes. `visibleText`
+ * strips attributes, so these values need their own pass.
+ * @param {string} html
+ * @returns {{ value: string, line: number }[]}
+ */
+export function readableAttributes(html) {
+  const lineOf = (index) => html.slice(0, index).split('\n').length;
+  /** @type {{ value: string, line: number }[]} */
+  const values = [];
+  for (const match of html.matchAll(/<meta\b([^>]*)>/gi)) {
+    const attrs = match[1];
+    const name = /\bname\s*=\s*["']([^"']*)["']/i.exec(attrs)?.[1]?.toLowerCase();
+    const property = /\bproperty\s*=\s*["']([^"']*)["']/i.exec(attrs)?.[1]?.toLowerCase();
+    const content = /\bcontent\s*=\s*["']([^"']*)["']/i.exec(attrs);
+    if (!content) continue;
+    if (name !== 'description' && !property?.startsWith('og:')) continue;
+    values.push({ value: content[1], line: lineOf(match.index + match[0].indexOf(content[0])) });
+  }
+  for (const match of html.matchAll(/(?:^|\s)(?:alt|title|aria-label)\s*=\s*["']([^"']*)["']/gi)) {
+    values.push({ value: match[1], line: lineOf(match.index + match[0].indexOf(match[1])) });
+  }
+  return values;
+}
+
+/**
  * The text a visitor sees on an HTML page: scripts, styles and tags removed, common entities decoded.
  * @param {string} html
  */

@@ -3,7 +3,7 @@
 import { existsSync } from 'node:fs';
 import { readdir, readFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
-import { findViolations, visibleText } from './lib/content-rules.mjs';
+import { findViolations, readableAttributes, visibleText } from './lib/content-rules.mjs';
 import { pdfText } from './lib/pdf-text.mjs';
 
 const TEXT = new Set(['.astro', '.ts', '.mjs', '.js', '.css', '.md', '.mdx', '.yaml', '.yml', '.json', '.svg', '.html', '.xml', '.txt', '.webmanifest']);
@@ -46,7 +46,15 @@ for await (const file of walk('dist')) {
   files++;
   const raw = await readFile(file, 'utf8');
   report(file, findViolations(raw, 'general'));
-  if (ext === '.html') report(`${file} (visible text)`, findViolations(visibleText(raw), 'prose'));
+  if (ext === '.html') {
+    report(`${file} (visible text)`, findViolations(visibleText(raw), 'prose'));
+    // Descriptions, social metadata, alt text and labels are read by visitors, search and AT but
+    // stripped by visibleText, so apply the prose rules to their values too.
+    for (const attr of readableAttributes(raw)) {
+      const found = findViolations(visibleText(attr.value), 'prose').map((v) => ({ ...v, line: attr.line }));
+      report(`${file} (attribute text)`, found);
+    }
+  }
 }
 report(`${PDF} (text)`, findViolations((await pdfText(PDF)).text, 'all'));
 
