@@ -2,4 +2,7 @@
 node_modules/
 dist/
 .astro/
+.lighthouseci/
+test-results/
+playwright-report/
 .DS_Store
