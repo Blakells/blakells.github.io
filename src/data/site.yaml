@@ -1,0 +1,21 @@
+# Facts used on more than one page. Change a fact here and every page follows.
+name: Blake Bailey
+role: Automation & AI agent engineer
+tagline: I build AI agents that do real work safely, and the tests that prove it.
+url: https://blakells.dev
+email: blake@blakells.dev
+github:
+  handle: Blakells
+  url: https://github.com/Blakells
+phone: (843) 616-1069
+location: Florence, SC
+work: Open to remote roles in the US
+inferenceServer: Built a local inference server (4× RTX 6000 Pro)
+degree:
+  name: Bachelor's degree
+  school: Thomas Edison State University
+  status: Expected March 2027
+preflight:
+  repo: https://github.com/Blakells/preflight
+  tests: 805
+  ci: CI on Linux + macOS
