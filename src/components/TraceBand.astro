@@ -1,0 +1,35 @@
+---
+interface Props {
+  /** Height of the band in pixels. */
+  height?: number;
+}
+const { height = 72 } = Astro.props;
+// A lap of a speed trace: straights, braking zones, corners. Drawn in its own band, never behind text.
+const lap =
+  'M0 33 C 26 33 38 27 62 25 H 96 C 120 25 130 9 158 9 H 190 C 212 9 220 30 248 30 H 286 ' +
+  'C 310 30 318 3 350 3 H 376 C 400 3 410 23 436 23 H480';
+---
+<svg class="trace" viewBox="0 0 480 46" preserveAspectRatio="none" width="100%" height={height} aria-hidden="true" focusable="false">
+  <path class="trace__grid" d="M0 40 H480"></path>
+  <path class="trace__line" d={lap}></path>
+</svg>
+
+<style>
+  .trace { display: block; width: 100%; animation: trace-reveal 1.4s ease-out both; }
+  .trace__grid {
+    fill: none; stroke: var(--color-border-strong); stroke-width: 1; stroke-dasharray: 2 6;
+    vector-effect: non-scaling-stroke;
+  }
+  .trace__line {
+    fill: none; stroke: var(--color-accent); stroke-opacity: 0.85; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+  }
+  /* Draws once, left to right; the resting state is fully drawn. */
+  @keyframes trace-reveal {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .trace { animation: none; }
+  }
+</style>
