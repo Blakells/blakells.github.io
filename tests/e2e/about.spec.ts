@@ -8,6 +8,7 @@ test.describe('about page', () => {
   test('tells the story and what Blake is looking for', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('About');
     await expect(page.locator('main')).toContainText('understanding how a system works');
+    await expect(page.locator('main')).toContainText('and Lantern Hollow');
     await expect(page.locator('main')).toContainText('remote roles in the US');
   });
 
