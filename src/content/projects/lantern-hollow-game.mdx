@@ -1,0 +1,40 @@
+---
+title: Lantern Hollow
+label: Browser game
+summary: A small, cozy dungeon crawler that runs in the browser, built with plain JavaScript and Canvas 2D.
+description: "Lantern Hollow, a cozy browser dungeon crawler in plain JavaScript and Canvas 2D: procedural floors, a lantern that runs on oil, and touch controls on iPhone."
+order: 2
+year: 2026
+tags: [JavaScript, Canvas 2D]
+repo: https://github.com/Blakells/lantern-hollow
+play: /lantern-hollow/
+---
+import Button from '../../components/Button.astro';
+
+<p><Button href="/lantern-hollow/">Play Lantern Hollow</Button></p>
+
+<figure>
+  <img src="/images/lantern-hollow/desktop.png" alt="Lantern Hollow on desktop: a hooded traveller with a lantern stands by a campfire in a small lit room of the Root Cellars, with hearts, an oil bar and a minimap at the edges of the dark." width="1440" height="900" />
+  <figcaption>The first floor, the Root Cellars, on desktop.</figcaption>
+</figure>
+
+## The game
+
+You take a lantern down five floors of the under-garden. The stairs are somewhere in the dark, the oil is
+always running low, and the local grumbles are having a day. Walking into a grumble soothes it: nothing in
+this dungeon needs killing, and there is no game over.
+
+## How it's built
+
+- Plain JavaScript on Canvas 2D, with no build step and no dependencies. The art is procedural geometry,
+  with no art assets.
+- Every floor is generated from a seed, so `?seed=53` replays the same dungeon.
+- The light radius shrinks as the lantern's oil burns down; oil flasks and campfires refill it.
+- A minimap in the corner.
+- On an iPhone it gets a touch pad and two action buttons, and it installs to the Home Screen as an app.
+- A small test for the world generator, `test-world.js`.
+
+<figure class="phone-shot">
+  <img src="/images/lantern-hollow/phone.png" alt="Lantern Hollow on an iPhone: the same lantern-lit room, with a direction pad and TEA and REST buttons below." width="1170" height="2532" loading="lazy" />
+  <figcaption>On an iPhone, with the touch controls.</figcaption>
+</figure>

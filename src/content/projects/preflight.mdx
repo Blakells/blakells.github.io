@@ -1,0 +1,117 @@
+---
+title: Preflight
+label: Open-source agent
+summary: An AI agent that fills job applications, with dry runs enforced inside the browser.
+description: "Preflight, an open-source job-application agent: how its dry runs are enforced inside the browser, how it is tested, and how it handles bot detection."
+order: 1
+year: 2026
+tags: [Python, Claude Code, Playwright]
+repo: https://github.com/Blakells/preflight
+stat: "{preflightTests} tests · {preflightCi}"
+---
+import HonestNote from '../../components/HonestNote.astro';
+import LayerTable from '../../components/LayerTable.astro';
+import PipelineDiagram from '../../components/PipelineDiagram.astro';
+import { site } from '../../lib/site';
+
+## The problem
+
+Applying for jobs is mostly form-filling: the same facts, typed into a different applicant tracking
+system every time. An AI agent can do that work. An agent that drives a real browser can also click the
+final Submit when it shouldn't, answer a question with something you never said, or apply to the same job
+twice. Preflight is the pipeline I built to do the work, with guardrails that make it safe to run.
+
+## What it does
+
+Preflight finds postings, filters and scores them against your profile with an LLM, tailors your resume
+and cover letter to each one, renders them as PDFs, and then hands each application to a browser agent
+that fills in the employer's form.
+
+<PipelineDiagram stages={[
+  { name: 'discover', line: 'Job boards, employer ATS boards and other career sites, with duplicates merged across sources.' },
+  { name: 'enrich', line: 'Full descriptions and apply links: JSON-LD first, then CSS patterns, then an LLM only when both fail.' },
+  { name: 'score', line: 'Free checks first (title, on-site wording, clearance, state limits), then a 1-10 fit score from the LLM.' },
+  { name: 'resolve', line: "Finds the employer's own application page, without an LLM." },
+  { name: 'tailor', line: 'Rewrites the resume from your real experience; a validator and a second LLM pass check for invented facts.' },
+  { name: 'cover', line: 'Writes the cover letter under the same rules.' },
+  { name: 'pdf', line: 'Renders the resume and letter with headless Chromium.' },
+  { name: 'apply', line: 'Claude Code drives a Chrome window per worker through a Playwright MCP server, dry run first.' },
+]} />
+
+## Safety layers
+
+The hard part is the last step. A dry run is meant to complete the whole form and stop before the final
+submit, and that stop is enforced in the page, not only requested in the prompt.
+
+A guard script runs in every page and frame before the site's own scripts. It reads the form's step
+markers and blocks the final submit, whether by a click, `form.submit()` or `requestSubmit()`, while Next
+and Save & Continue pass on earlier steps. A hook refuses any JavaScript the agent writes itself during a
+dry run, so the agent cannot route around the guard.
+
+<figure>
+  <img src="/images/preflight/guard-banner.png" alt="A test application form for a Data Analyst role, filled in for the fictional applicant Jordan Rivera, with a red banner across the top reading: PREFLIGHT DRY RUN: final Submit blocked (Submit)." width="1800" height="520" loading="lazy" />
+  <figcaption>The guard blocking a final Submit on one of Preflight's own test pages.</figcaption>
+</figure>
+
+Each layer below covers a different way an application could go wrong. Paths are under `src/preflight/`.
+
+<LayerTable layers={[
+  { layer: 'Dry-run guard', where: 'apply/helpers/dry_run_guard.js', prevents: 'The final submit leaving the browser in a dry run, by click, form.submit() or requestSubmit().' },
+  { layer: 'Step parser', where: 'apply/helpers/lib/step_markers.js', prevents: "Disagreement about which step is final: the guard and the agent's page reader share one parser." },
+  { layer: 'Dry-run hook', where: 'apply/dry_run_hook.py', prevents: 'The agent running JavaScript of its own in a dry run. The launcher tests the hook before every dry run.' },
+  { layer: 'Phone guard', where: 'apply/phone_guard.py', prevents: "Typing a phone number that is not yours or a reference's through the form tools." },
+  { layer: 'Auditor', where: 'apply/dry_run_audit.py', prevents: 'A wrong field going unnoticed: an LLM checks the filled page against your facts, independently of the agent.' },
+  { layer: 'Confirmation backstop', where: 'apply/launcher.py', prevents: 'A false "applied", and a submission during a dry run going unnoticed.' },
+  { layer: 'Dedupe', where: 'dedupe.py', prevents: 'Applying twice to one job found on several sites, or to a posting that changed under the link.' },
+  { layer: 'Tool allow-list', where: 'apply/launcher.py', prevents: 'Any tool outside the list, including sending email in a dry run.' },
+  { layer: 'Credentials', where: 'apply/helpers/account.py', prevents: 'One shared password across sites, or an API key reaching a host it was not configured for.' },
+]} />
+
+The known gap, stated plainly: the guard does not see a page's own script posting the form with `fetch`.
+The confirmation backstop and the independent audit catch that case afterwards, and a confirmation seen
+during a dry run sets the job aside for review.
+
+## Anti-detection, plainly
+
+Job sites run bot detection, and an automated browser session gets blocked or served endless CAPTCHAs.
+Preflight includes measures so it can complete applications anyway:
+
+- **The driver.** A pinned Patchright build of the Playwright MCP server attaches to Chrome without the
+  `Runtime.enable` call most detectors look for.
+- **Natural input.** The agent's clicks move the mouse along a short, slightly curved path, pause, and
+  hold the button for a human-length moment instead of jumping to the exact center of the element.
+- **CAPTCHAs.** Paid solvers run only with the operator's own key. Cloudflare's checkbox waits for a
+  person to solve it in the visible window by default, and a challenge nobody can solve ends the attempt.
+- **Proxy.** An optional residential proxy for CAPTCHA-related traffic, with both exit IPs checked to
+  match before the agent starts.
+
+These exist so that a person applying to jobs for themselves is not locked out. The operator is
+responsible for following each site's terms; Preflight does not create fake identities and only ever
+applies as you.
+
+## Testing
+
+The suite has {site.preflight.tests} tests and runs in under 30 seconds with no network, no API key and
+no real browser profile. It uses a fake OpenAI-compatible LLM server and a fictional applicant, and it runs
+the dry-run guard in headless Chromium against local pages, checking by the requests the server receives
+that the final submit never arrives while the allowed steps do. CI runs the suite on Linux (Python 3.11 to
+3.13) and macOS. Nothing in CI or the test suite submits an application.
+
+## How I built it
+
+I directed AI coding agents through the build with a test-first workflow, and had an independent AI
+reviewer check the work before it landed.
+
+<HonestNote>
+
+- Preflight began from [ApplyPilot](https://github.com/Pickle-Pixel/ApplyPilot) 0.3.0 by Pickle-Pixel (AGPL-3.0-only), whose pipeline shape and some of whose code it keeps. Most of its current code was written for Preflight.
+- The 50+ live applications were sent by my private predecessor system, not by this public repository.
+
+</HonestNote>
+
+## Read more
+
+- [Source on GitHub](https://github.com/Blakells/preflight)
+- [Architecture](https://github.com/Blakells/preflight/blob/main/docs/architecture.md)
+- [Dry runs and the safety layers](https://github.com/Blakells/preflight/blob/main/docs/reference/dry-runs.md)
+- [Anti-detection](https://github.com/Blakells/preflight/blob/main/docs/reference/anti-detection.md)

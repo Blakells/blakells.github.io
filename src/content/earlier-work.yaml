@@ -1,0 +1,52 @@
+# 2020 learning projects. Descriptions come from each repository and its dependencies.
+- id: weather-website
+  title: Weather-Website
+  order: 1
+  year: 2020
+  summary: Weather forecasts for anywhere in the world, from the Dark Sky and Mapbox APIs.
+  stack: [Node.js, Express, Handlebars]
+  repo: https://github.com/Blakells/Weather-Website
+- id: task-manager-api
+  title: Task-Manager-API
+  order: 2
+  year: 2020
+  summary: A REST API for tasks with user accounts, token authentication and file uploads, backed by MongoDB.
+  stack: [Node.js, Express, MongoDB, JWT]
+  repo: https://github.com/Blakells/Task-Manager-API
+- id: chat-app
+  title: chat-app
+  order: 3
+  year: 2020
+  summary: Real-time chat over WebSockets, with a profanity filter.
+  stack: [Node.js, Express, Socket.IO]
+  repo: https://github.com/Blakells/chat-app
+- id: ecommerce-site
+  title: eCommerce-Site
+  order: 4
+  year: 2020
+  summary: A full-stack store with a GraphQL API and Stripe payments, built while following a course.
+  stack: [React, Next.js, Apollo, GraphQL, Prisma, Stripe]
+  repo: https://github.com/Blakells/eCommerce-Site
+- id: markdown-previewer
+  title: Markdown-Previewer
+  order: 5
+  year: 2020
+  summary: Type Markdown and see it rendered as you type.
+  stack: [React, marked, Bootstrap]
+  repo: https://github.com/Blakells/Markdown-Previewer
+  demo: https://youthful-goldstine-b03121.netlify.app/
+- id: random-quote-machine
+  title: Random-Quote-Machine
+  order: 6
+  year: 2020
+  summary: A random quote generator.
+  stack: [React, Material UI]
+  repo: https://github.com/Blakells/Random-Quote-Machine
+  demo: https://sleepy-wing-a733f0.netlify.app/
+- id: drum-machine
+  title: Drum-Machine
+  order: 7
+  year: 2020
+  summary: A drum machine built in React.
+  stack: [React]
+  repo: https://github.com/Blakells/Drum-Machine
