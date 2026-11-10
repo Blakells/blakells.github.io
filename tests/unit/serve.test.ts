@@ -42,9 +42,22 @@ describe('serveDir', () => {
     expect(await missing.text()).toBe('<h1>off track</h1>');
   });
 
+  it('answers a malformed percent-encoded path with 400 and stays up', async () => {
+    const malformed = await fetch(`${server.url}/%`);
+    expect(malformed.status).toBe(400);
+    const followUp = await fetch(`${server.url}/`);
+    expect(followUp.status).toBe(200);
+  });
+
   it('refuses paths outside the root', async () => {
-    const escape = await fetch(`${server.url}/%2e%2e/%2e%2e/etc/passwd`);
-    expect([403, 404]).toContain(escape.status);
+    const escape = await fetch(`${server.url}/%2e%2e%2f%2e%2e%2fetc%2fpasswd`);
+    expect(escape.status).toBe(403);
     expect(await escape.text()).not.toContain('root:');
+  });
+
+  it('resolves encoded dot segments that stay inside the root', async () => {
+    const inside = await fetch(`${server.url}/%2e%2e/%2e%2e/etc/passwd`);
+    expect(inside.status).toBe(404);
+    expect(await inside.text()).not.toContain('root:');
   });
 });

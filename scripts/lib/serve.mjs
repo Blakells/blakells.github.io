@@ -28,7 +28,13 @@ const TYPES = {
 export async function serveDir(dir, port = 0) {
   const root = resolve(dir);
   const server = createServer(async (req, res) => {
-    const path = decodeURIComponent(new URL(req.url ?? '/', 'http://localhost').pathname);
+    let path;
+    try {
+      path = decodeURIComponent(new URL(req.url ?? '/', 'http://localhost').pathname);
+    } catch {
+      res.writeHead(400).end();
+      return;
+    }
     let file = normalize(join(root, path));
     if (file !== root && !file.startsWith(root + sep)) {
       res.writeHead(403).end();
