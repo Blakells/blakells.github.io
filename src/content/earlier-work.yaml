@@ -24,7 +24,7 @@
   title: eCommerce-Site
   order: 4
   year: 2020
-  summary: A full-stack store with a GraphQL API and Stripe payments, built while following a course.
+  summary: A full-stack store with a GraphQL API and Stripe payments.
   stack: [React, Next.js, Apollo, GraphQL, Prisma, Stripe]
   repo: https://github.com/Blakells/eCommerce-Site
 - id: markdown-previewer

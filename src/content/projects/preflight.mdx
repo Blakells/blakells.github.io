@@ -60,11 +60,11 @@ Each layer below covers a different way an application could go wrong. Paths are
   { layer: 'Step parser', where: 'apply/helpers/lib/step_markers.js', prevents: "Disagreement about which step is final: the guard and the agent's page reader share one parser." },
   { layer: 'Dry-run hook', where: 'apply/dry_run_hook.py', prevents: 'The agent running JavaScript of its own in a dry run. The launcher tests the hook before every dry run.' },
   { layer: 'Phone guard', where: 'apply/phone_guard.py', prevents: "Typing a phone number that is not yours or a reference's through the form tools." },
-  { layer: 'Auditor', where: 'apply/dry_run_audit.py', prevents: 'A wrong field going unnoticed: an LLM checks the filled page against your facts, independently of the agent.' },
+  { layer: 'Auditor', where: 'apply/dry_run_audit.py, apply/form_audit.py', prevents: 'A wrong field going unnoticed: an LLM checks the filled page against your facts, independently of the agent.' },
   { layer: 'Confirmation backstop', where: 'apply/launcher.py', prevents: 'A false "applied", and a submission during a dry run going unnoticed.' },
-  { layer: 'Dedupe', where: 'dedupe.py', prevents: 'Applying twice to one job found on several sites, or to a posting that changed under the link.' },
+  { layer: 'Dedupe', where: 'dedupe.py, apply/posting_identity.py', prevents: 'Applying twice to one job found on several sites, or to a posting that changed under the link.' },
   { layer: 'Tool allow-list', where: 'apply/launcher.py', prevents: 'Any tool outside the list, including sending email in a dry run.' },
-  { layer: 'Credentials', where: 'apply/helpers/account.py', prevents: 'One shared password across sites, or an API key reaching a host it was not configured for.' },
+  { layer: 'Credentials', where: 'apply/helpers/account.py, apply/model_provider.py', prevents: 'One shared password across sites, or an API key reaching a host it was not configured for.' },
 ]} />
 
 The known gap, stated plainly: the guard does not see a page's own script posting the form with `fetch`.
