@@ -1,0 +1,65 @@
+---
+import ArchiveRow from '../../components/ArchiveRow.astro';
+import ChannelLabel from '../../components/ChannelLabel.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { channel, earlierWork, featuredProjects, projectHref } from '../../lib/collections';
+import { fillFacts } from '../../lib/facts';
+
+const projects = await featuredProjects();
+const earlier = await earlierWork();
+---
+<BaseLayout
+  title="Work · Blake Bailey"
+  description="Projects by Blake Bailey: Preflight, an open-source job-application agent; Lantern Hollow, a browser game; and earlier JavaScript projects."
+>
+  <div class="container work">
+    <header class="work__header">
+      <h1>Work</h1>
+      <p class="lede">Two recent projects, then the JavaScript projects I built while learning in 2020.</p>
+    </header>
+
+    <section id="featured" class="featured" aria-labelledby="featured-h">
+      <h2 id="featured-h">Featured projects</h2>
+      <div class="cards">
+        {projects.map((project, index) => (
+          <ProjectCard
+            channel={channel(index)}
+            label={project.data.label}
+            title={project.data.title}
+            href={projectHref(project.id)}
+            summary={project.data.summary}
+            tags={project.data.tags}
+            stat={project.data.stat ? fillFacts(project.data.stat) : undefined}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section id="earlier" class="section" aria-labelledby="earlier-h">
+      <ChannelLabel channel={channel(projects.length)} name="Earlier work" />
+      <h2 id="earlier-h">Earlier work: 2020 learning projects</h2>
+      <p>Source code for each one, and live demos for the two that are still hosted.</p>
+      <ul class="archive">
+        {earlier.map((item) => (
+          <ArchiveRow
+            title={item.data.title}
+            year={item.data.year}
+            summary={item.data.summary}
+            stack={item.data.stack}
+            repo={item.data.repo}
+            demo={item.data.demo}
+          />
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .work { display: grid; gap: var(--space-6); padding-block: var(--space-7) 0; }
+  .work__header { display: grid; gap: var(--space-3); }
+  .featured { display: grid; gap: var(--space-5); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--space-5); }
+  .archive { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--color-border); }
+</style>
