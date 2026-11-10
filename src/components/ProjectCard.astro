@@ -1,0 +1,43 @@
+---
+import ChannelLabel from './ChannelLabel.astro';
+
+interface Props {
+  channel: string;
+  /** Short label after the channel, for example "Open-source agent". */
+  label: string;
+  title: string;
+  href: string;
+  summary: string;
+  tags: string[];
+  stat?: string;
+}
+const { channel, label, title, href, summary, tags, stat } = Astro.props;
+---
+<article class="card">
+  <ChannelLabel channel={channel} name={label} />
+  <h3 class="card__title"><a href={href}>{title}</a></h3>
+  <p>{summary}</p>
+  {tags.length > 0 && (
+    <ul class="card__tags" aria-label="Built with">
+      {tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  )}
+  {stat && <p class="card__stat">{stat}</p>}
+</article>
+
+<style>
+  .card {
+    display: grid; gap: var(--space-3); align-content: start;
+    background: var(--color-panel); border: 1px solid var(--color-border); border-radius: var(--radius);
+    padding: var(--space-5);
+  }
+  .card__title { font-size: var(--step-2); }
+  .card__title a { text-decoration: none; }
+  .card__title a:hover { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .card__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+  .card__tags li {
+    font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-heading);
+    border: 1px solid var(--color-border-strong); border-radius: 999px; padding: 0.1em 0.7em;
+  }
+  .card__stat { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-muted); }
+</style>

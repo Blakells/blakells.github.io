@@ -1,0 +1,29 @@
+---
+import { site } from '../lib/site';
+
+interface Props {
+  /** Include phone and location (the Contact page). */
+  full?: boolean;
+}
+const { full = false } = Astro.props;
+const tel = `+1${site.phone.replace(/\D/g, '')}`;
+---
+<ul class="contact">
+  <li><span class="contact__label">Email</span><a href={`mailto:${site.email}`}>{site.email}</a></li>
+  <li><span class="contact__label">GitHub</span><a href={site.github.url}>github.com/{site.github.handle}</a></li>
+  {full && <li><span class="contact__label">Phone</span><a href={`tel:${tel}`}>{site.phone}</a></li>}
+  {full && <li><span class="contact__label">Location</span><span>{site.location} · {site.work}</span></li>}
+</ul>
+
+<style>
+  .contact { display: grid; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+  .contact li { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: var(--space-3); align-items: baseline; }
+  .contact__label {
+    font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--color-muted);
+  }
+  .contact a { font-size: var(--step-1); overflow-wrap: anywhere; }
+  @media (max-width: 30rem) {
+    .contact li { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  year: number;
+  summary: string;
+  stack: string[];
+  repo: string;
+  demo?: string;
+}
+const { title, year, summary, stack, repo, demo } = Astro.props;
+---
+<li class="row">
+  <p class="row__year">{year}</p>
+  <div class="row__main">
+    <h3 class="row__title">{title}</h3>
+    <p>{summary}</p>
+    <p class="row__stack">{stack.join(' · ')}</p>
+  </div>
+  <p class="row__links">
+    <a href={repo}>Source<span class="visually-hidden"> for {title}</span></a>
+    {demo && <a href={demo}>Live demo<span class="visually-hidden"> of {title}</span></a>}
+  </p>
+</li>
+
+<style>
+  .row {
+    display: grid; grid-template-columns: 4rem minmax(0, 1fr) auto; gap: var(--space-2) var(--space-5);
+    padding-block: var(--space-4); border-top: 1px solid var(--color-border);
+  }
+  .row__year { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-muted); padding-top: 0.2em; }
+  .row__main { display: grid; gap: var(--space-1); min-width: 0; }
+  .row__title { font-size: var(--step-0); }
+  .row__stack { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-muted); }
+  .row__links { display: flex; gap: var(--space-4); font-size: var(--step--1); white-space: nowrap; }
+  @media (max-width: 40rem) {
+    .row { grid-template-columns: minmax(0, 1fr); }
+    .row__links { white-space: normal; }
+  }
+</style>

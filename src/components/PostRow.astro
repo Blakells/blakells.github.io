@@ -1,0 +1,27 @@
+---
+import { displayDate, isoDate } from '../lib/format';
+
+interface Props {
+  title: string;
+  href: string;
+  date: Date;
+  description: string;
+}
+const { title, href, date, description } = Astro.props;
+---
+<li class="post">
+  <a class="post__title" href={href}>{title}</a>
+  <time datetime={isoDate(date)}>{displayDate(date)}</time>
+  <p>{description}</p>
+</li>
+
+<style>
+  .post {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-1) var(--space-4);
+    padding-block: var(--space-4); border-top: 1px solid var(--color-border);
+  }
+  .post__title { font-weight: 600; font-size: var(--step-1); text-decoration: none; }
+  .post__title:hover { text-decoration: underline; text-decoration-color: var(--color-accent); }
+  .post time { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-muted); padding-top: 0.3em; }
+  .post p { grid-column: 1 / -1; }
+</style>
