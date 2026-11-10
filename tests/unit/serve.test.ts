@@ -55,6 +55,19 @@ describe('serveDir', () => {
     expect(await escape.text()).not.toContain('root:');
   });
 
+  it('forwards a redirected prefix with the rest of the path and the query, and nothing else', async () => {
+    const forwarding = await serveDir(root, 0, { '/game/': 'https://example.com/game/' });
+    try {
+      const game = await fetch(`${forwarding.url}/game/play.js?v=1`, { redirect: 'manual' });
+      expect(game.status).toBe(302);
+      expect(game.headers.get('location')).toBe('https://example.com/game/play.js?v=1');
+      expect((await fetch(`${forwarding.url}/work/`)).status).toBe(200);
+    } finally {
+      await forwarding.close();
+    }
+    expect((await fetch(`${server.url}/game/`, { redirect: 'manual' })).status).toBe(404);
+  });
+
   it('resolves encoded dot segments that stay inside the root', async () => {
     const inside = await fetch(`${server.url}/%2e%2e/%2e%2e/etc/passwd`);
     expect(inside.status).toBe(404);

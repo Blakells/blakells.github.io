@@ -15,7 +15,7 @@ describe('resume content', () => {
     expect(all).not.toContain('ApplyPilot');
   });
 
-  it('lists the degree as expected, with no completion percentage', () => {
+  it('lists the degree as an expected bachelor\'s degree, with no completion percentage', () => {
     expect(resume.education[0]).toMatchObject({
       title: "Bachelor's degree",
       org: 'Thomas Edison State University',

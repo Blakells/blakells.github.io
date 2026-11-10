@@ -25,7 +25,10 @@ test.describe('about page', () => {
 
   test('states the server as built and the degree as expected', async ({ page }) => {
     await expect(page.locator('main')).toContainText('Built a local inference server (4× RTX 6000 Pro)');
-    await expect(page.locator('main')).toContainText("Bachelor's degree");
-    await expect(page.locator('main')).toContainText('Expected March 2027');
+    await expect(page.locator('main')).toContainText(
+      "I studied computer science at Francis Marion University and software engineering at Western Governors " +
+        "University, and I'm set to finish a bachelor's degree at Thomas Edison State University (Expected March 2027).",
+    );
+    await expect(page.locator('main')).toContainText("Bachelor's degree, Thomas Edison State University");
   });
 });

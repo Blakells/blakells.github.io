@@ -21,18 +21,27 @@ const TYPES = {
 /**
  * Serve a built site directory over HTTP on 127.0.0.1, the way GitHub Pages does:
  * directories serve their index.html, and a missing path gets 404.html with status 404.
+ * A path under a redirected prefix gets a 302 to the site that serves it in production.
  * @param {string} dir
  * @param {number} [port] 0 picks a free port
+ * @param {Record<string, string>} [redirects] path prefix to the URL that replaces it
  * @returns {Promise<{ url: string, close: () => Promise<void> }>}
  */
-export async function serveDir(dir, port = 0) {
+export async function serveDir(dir, port = 0, redirects = {}) {
   const root = resolve(dir);
   const server = createServer(async (req, res) => {
+    let url;
     let path;
     try {
-      path = decodeURIComponent(new URL(req.url ?? '/', 'http://localhost').pathname);
+      url = new URL(req.url ?? '/', 'http://localhost');
+      path = decodeURIComponent(url.pathname);
     } catch {
       res.writeHead(400).end();
+      return;
+    }
+    const prefix = Object.keys(redirects).find((from) => url.pathname.startsWith(from));
+    if (prefix) {
+      res.writeHead(302, { location: redirects[prefix] + url.pathname.slice(prefix.length) + url.search }).end();
       return;
     }
     let file = normalize(join(root, path));

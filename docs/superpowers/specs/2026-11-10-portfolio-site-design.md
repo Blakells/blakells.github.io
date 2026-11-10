@@ -122,7 +122,7 @@ they are updated in one edit.
   - One photo, if Blake supplies one.
 - **Investing.** Nearly ten years of self-directed investing, since 2017. No amounts and no figures, anywhere on the site.
 - **Local models.** "Built a local inference server (4× RTX 6000 Pro)." The site claims only the self-hosting experience Blake confirms.
-- **Education.** Bachelor's degree, Thomas Edison State University, expected March 2027. "Expected" is removed once the degree is conferred. The About copy may say he is two courses from finishing.
+- **Education.** Bachelor's degree, Thomas Edison State University, expected March 2027. "Expected" is removed once the degree is conferred. The About copy says he studied computer science at Francis Marion University and software engineering at Western Governors University, and is set to finish the bachelor's degree at TESU.
 
 ### Earlier work
 
