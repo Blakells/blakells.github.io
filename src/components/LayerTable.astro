@@ -10,7 +10,7 @@ interface Props {
 }
 const { layers, caption = 'Safety layers' } = Astro.props;
 ---
-<div class="layers" tabindex="0" role="region" aria-label={caption}>
+<section class="layers" tabindex="0" aria-label={caption}>
   <table>
     <caption class="visually-hidden">{caption}</caption>
     <thead>
@@ -22,7 +22,7 @@ const { layers, caption = 'Safety layers' } = Astro.props;
       ))}
     </tbody>
   </table>
-</div>
+</section>
 
 <style>
   .layers { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-panel); }
