@@ -1,0 +1,29 @@
+---
+import type { ResumeEntry } from '../lib/resume';
+
+interface Props {
+  entry: ResumeEntry;
+}
+const { entry } = Astro.props;
+const heading = [entry.title, entry.org, entry.place].filter(Boolean).join(' · ');
+---
+<div class="entry">
+  <div class="entry__head">
+    <h3>{heading}</h3>
+    {entry.dates && <p class="entry__dates">{entry.dates}</p>}
+  </div>
+  {entry.link && <p class="entry__link"><a href={entry.link.href}>{entry.link.label}</a></p>}
+  {entry.bullets.length > 0 && (
+    <ul>
+      {entry.bullets.map((bullet) => <li>{bullet}</li>)}
+    </ul>
+  )}
+</div>
+
+<style>
+  .entry { display: grid; gap: var(--space-2); break-inside: avoid; }
+  .entry__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-1) var(--space-4); align-items: baseline; }
+  .entry h3 { font-size: var(--step-0); }
+  .entry__dates, .entry__link { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-muted); }
+  .entry ul { margin: 0; padding-left: 1.25em; display: grid; gap: var(--space-1); }
+</style>

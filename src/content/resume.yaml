@@ -1,0 +1,76 @@
+# Blake's resume, re-authored for the site and the PDF. {tokens} come from src/data/site.yaml.
+summary: >-
+  Self-directed problem solver focused on AI agents and automation, with a hands-on background in vehicle
+  systems and data analysis and nearly 10 years of independent investing. I learn new tools quickly, take
+  systems apart to understand how they work, and keep at a problem until I have the root cause. I built
+  Preflight, an open-source job-application agent whose dry runs are enforced inside the browser, and I run
+  telemetry analysis for a competitive motorcycle racing program.
+skills:
+  - group: AI & automation
+    items: >-
+      Claude Code and agentic workflows (subagents, MCP tools), LLM APIs, prompt design, Python,
+      Playwright/Patchright browser automation, Flask, OAuth integrations, multi-model code review,
+      self-hosted local LLM inference
+  - group: Data & analysis
+    items: AiM RaceStudio 3 (custom math channels), telemetry analysis, performance simulation, CSV data pipelines, video data overlays
+  - group: Vehicle systems
+    items: CAN bus reverse engineering, diagnostic troubleshooting, brake hydraulics, motorcycle build and maintenance, car and truck repair
+  - group: Finance
+    items: DeFi and on-chain protocols, yield farming, active trading, long-term investing, independent market research
+experience:
+  - title: Independent Investor
+    org: Self-Employed
+    place: Florence, SC
+    dates: 2017 – Present
+    bullets:
+      - Managed a personal investment portfolio full time for nearly 10 years.
+      - Self-funded my living expenses from personal investment returns, with no outside capital, advisors, or employer.
+      - Researched and deployed capital across decentralized finance (DeFi) and on-chain protocols, including yield farming, active trading, and long-term positions.
+      - Made every allocation, entry, and exit decision independently through market cycles that included multiple major drawdowns.
+projects:
+  - title: Preflight
+    org: AI job-application agent, open source
+    dates: "2026"
+    link: { label: github.com/Blakells/preflight, href: "https://github.com/Blakells/preflight" }
+    bullets:
+      - Built an end-to-end pipeline that discovers job postings, scores them against a profile with an LLM, tailors the resume and cover letter, renders PDFs, and hands each application to a Claude Code browser agent.
+      - "Enforced dry runs inside the browser: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself, so the agent cannot route around it."
+      - Supports Ashby, Greenhouse, Lever, iCIMS, Workday and other applicant tracking systems through tested helper scripts and per-ATS playbooks.
+      - Got past bot detection with the Patchright stealth driver, natural mouse input, CAPTCHA-solving services and proxy routing.
+      - "Covered by {preflightTests} offline tests, with a fake LLM server and the guard exercised in real Chromium; {preflightCi}."
+      - Its private predecessor has submitted 50+ live applications.
+      - Led development by directing AI coding agents with a test-first workflow and an independent AI code reviewer.
+  - title: Lantern Hollow
+    org: Browser game
+    dates: "2026"
+    link: { label: blakells.dev/lantern-hollow, href: "https://blakells.dev/lantern-hollow/" }
+    bullets:
+      - A small, cozy dungeon crawler in plain JavaScript and Canvas 2D, with no build step and no dependencies.
+      - Procedurally generated, seedable floors, a light radius that shrinks as the lantern's oil burns, a minimap, and touch controls; installs to an iPhone Home Screen.
+  - title: Local inference server
+    dates: "2026"
+    bullets:
+      - "{inferenceServer} to run language models on my own hardware."
+  - title: Race Telemetry Analysis & Vehicle Diagnostics
+    dates: "2026"
+    bullets:
+      - Analyzed AiM Solo 2 DL data in RaceStudio 3 using custom math channels. Pinpointed missed downshifts, clutch slip, and a lean-angle asymmetry costing lap time.
+      - Built a custom CSV workflow that overlays wheel speed and slip percentage on onboard video for lap-by-lap review.
+      - Ran physics-based simulations and engine performance analysis to compare race platforms and set realistic power and weight targets.
+      - Resolved a clutch switch fault capping RPM, and a tire circumference mismatch that skewed speed data.
+      - "Converted a street motorcycle to race spec: ride-by-wire throttle, master cylinder, brake lines, suspension, exhaust, and ECU tune."
+      - Background in CAN bus reverse engineering and vehicle telemetry.
+activities:
+  - Competitive motorcycle road racer, WERA/ASRA, 2026 season. Raced and tested at VIR, Barber, Road Atlanta, Roebling Road, and Carolina Motorsports Park.
+  - Volunteer riding coach. Coach riders on riding technique and bike setup.
+  - Premier-level travel soccer at age 16, the top tier of youth club soccer, where college scouts recruit.
+education:
+  - title: Bachelor's degree
+    org: Thomas Edison State University
+    dates: "{degreeStatus}"
+  - title: Earlier coursework
+    dates: ""
+    bullets:
+      - Computer science, Francis Marion University (2020 – 2021)
+      - Software engineering, Western Governors University (2026)
+licenses: WERA competition racing license; South Carolina motorcycle endorsement
