@@ -28,6 +28,10 @@ test.describe('home page', () => {
     await expect(page.getByText('Built a local inference server (4× RTX 6000 Pro)')).toBeVisible();
   });
 
+  test('shows the latest posts', async ({ page }) => {
+    await expect(page.locator('.posts li')).toHaveCount(2);
+  });
+
   test('ends with the domain email', async ({ page }) => {
     await expect(page.locator('#contact').getByRole('link', { name: 'blake@blakells.dev' })).toHaveAttribute('href', 'mailto:blake@blakells.dev');
   });

@@ -1,0 +1,35 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publishedPosts, type Post } from '../../lib/collections';
+import { displayDate, isoDate } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const posts = await publishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<BaseLayout title={`${post.data.title} · Blake Bailey`} description={post.data.description}>
+  <article class="container post-page">
+    <header class="post-page__header">
+      <p class="muted"><a href="/writing/">Writing</a> · <time datetime={isoDate(post.data.date)}>{displayDate(post.data.date)}</time></p>
+      <h1>{post.data.title}</h1>
+      <p class="lede">{post.data.description}</p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-page { display: grid; gap: var(--space-6); padding-block: var(--space-7) 0; }
+  .post-page__header { display: grid; gap: var(--space-3); max-width: var(--measure); }
+  .post-page h1 { font-size: var(--step-3); }
+</style>
