@@ -64,9 +64,10 @@ Writing and Contact. The footer shows the email, GitHub and RSS links and a one-
 - **Writing.** The latest two posts.
 - **Contact line.** Email and GitHub.
 
-The reference mockups in `.superpowers/reference/` show three featured cards, one of them race
+The draft mockups in `.superpowers/reference/` show three featured cards, one of them race
 telemetry. That card is outdated: the homepage and the Work index have two featured cards, and race
-telemetry lives on the About page only.
+telemetry lives on the About page only. The mockups are local references with draft content, and
+are never committed (section 6).
 
 ### Preflight case study
 
@@ -87,7 +88,7 @@ Written from the Preflight README and `docs/architecture.md`, and checked agains
   guard tests in headless Chromium against local pages, and CI on Linux (Python 3.11 to 3.13) and
   macOS. Nothing in CI submits an application.
 - **Honest note callout.**
-  - Preflight began from ApplyPilot 0.3.0 by Pickle-Pixel (AGPL-3.0), and most of its current code was written for Preflight.
+  - Preflight began from ApplyPilot 0.3.0 by Pickle-Pixel (AGPL-3.0-only), and most of its current code was written for Preflight.
   - The 50+ live applications were sent by Blake's private predecessor system, not by the public repository.
 - **Links.** The repository, the architecture doc and the safety reference.
 - **Images.** Screenshots made locally from the test fixtures, for example the guard's banner on a blocked submit and a dry-run log. Never a real application, real employer or real personal data.
@@ -99,7 +100,7 @@ they are updated in one edit.
 
 - Its two screenshots from the game's repository: desktop and iPhone.
 - **How it's built:**
-  - plain JavaScript on Canvas 2D, with no build step, no dependencies and no image assets;
+  - plain JavaScript on Canvas 2D, with no build step and no dependencies; the art is procedural geometry, with no art assets;
   - procedurally generated, seedable floors (`?seed=`);
   - the oil-light mechanic, where the light radius shrinks as the oil burns;
   - the minimap;
@@ -120,7 +121,7 @@ they are updated in one edit.
   - A short account of tracing a season-long brake fade to its root cause by ruling out parts one at a time, presented as the same method he uses on software.
   - Volunteer riding coach.
   - One photo, if Blake supplies one.
-- **Investing.** About ten years of self-directed investing. No amounts and no figures, anywhere on the site.
+- **Investing.** Nearly ten years of self-directed investing, since 2017. No amounts and no figures, anywhere on the site.
 - **Local models.** "Building a local inference server (4× RTX 6000 Pro)." It changes to past tense once the server runs. The site claims only the self-hosting experience Blake confirms.
 - **Education.** Bachelor's degree, Thomas Edison State University, expected March 2027. "Expected" is removed once the degree is conferred. The About copy may say he is two courses from finishing.
 
@@ -156,7 +157,7 @@ A post about the inference server comes after the server is built.
 
 The page lists:
 
-- `blake@blakells.dev`
+- `blake@blakells.dev` (the proposed address; Blake confirms it)
 - github.com/Blakells
 - (843) 616-1069
 - Florence, SC, open to remote roles in the US
@@ -179,8 +180,9 @@ PDF. Mail to the domain reaches him through Cloudflare Email Routing (section 5)
 
 ## 4. Look and components
 
-The C1 "Telemetry, refined" direction. The reference is `.superpowers/reference/c1-refined.html`;
-the full-page mockups next to it show the layout, apart from the featured-card count noted above.
+The C1 "Telemetry, refined" direction. The local reference is `.superpowers/reference/c1-refined.html`,
+and the full-page mockups next to it show the layout, apart from the featured-card count noted above.
+This section and section 2 are the authority; the mockups only illustrate them.
 
 - **Colors**, as CSS variables:
   - background `#111316`;
@@ -220,7 +222,8 @@ the full-page mockups next to it show the layout, apart from the featured-card c
   branch, which becomes the default, and Pages is switched to deploy from GitHub Actions. The site
   is developed in `~/portfolio-site`, and nothing on GitHub changes until Blake approves the push.
 - **Domain.** `blakells.dev`. Cloudflare is its registrar and DNS host.
-  - `public/CNAME` contains `blakells.dev`.
+  - The custom domain is set in the repository's Pages settings. A site deployed from GitHub Actions
+    needs no `CNAME` file, and GitHub ignores one, so the site has none.
   - The bare domain is the canonical address, and `www` redirects to it.
   - `.dev` requires HTTPS, so the site is unreachable until GitHub has issued its certificate.
 - **DNS records**, all set to "DNS only" in Cloudflare (not proxied), so that GitHub can issue
@@ -234,8 +237,8 @@ the full-page mockups next to it show the layout, apart from the featured-card c
   a Pages site is served under `blakells.dev/<repo>/`. Lantern Hollow should be. Any other
   repository with Pages turned on is reviewed at launch, and Pages is turned off where it should
   not appear.
-- **Email.** Cloudflare Email Routing forwards `blake@blakells.dev`, plus a catch-all if Blake turns
-  it on, to his personal Gmail. Replies go out from Gmail unless he later sets up "Send mail as".
+- **Email.** Cloudflare Email Routing forwards `blake@blakells.dev` and, through a catch-all, every
+  other address at the domain to his personal Gmail. Replies go out from Gmail unless he later sets up "Send mail as".
   Blake configures this himself in his Cloudflare account.
 
 ## 6. Build
@@ -253,18 +256,25 @@ the full-page mockups next to it show the layout, apart from the featured-card c
   src/components/     the components in section 4
   src/layouts/        the base layout (head, header, footer, skip link)
   src/styles/         tokens.css (colors, spacing, type) and global.css
-  public/             CNAME, favicon, social preview image, project images
+  public/             favicon, social preview image, project images
+  src/data/site.yaml  facts used on several pages: contact details, the inference-server line,
+                      the degree line, the Preflight test count
   scripts/            resume-pdf.mjs and the content checks
   ```
 
-  Content edits only touch `src/content/`. Each content collection has a schema, so a missing
-  field fails the build.
+  Copy edits touch `src/content/`, `src/data/site.yaml`, or the page file that holds that page's own
+  prose (Home, About, Contact, 404); never components or styles. A fact that appears on more than one
+  page lives only in `site.yaml`. Each content collection has a schema, so a missing field fails the
+  build.
+- **Never committed:** `.superpowers/` (the brainstorm sessions and draft mockups) and Blake's source
+  resume. Both stay local; `.gitignore` covers the first, and the second lives outside the repository.
 - **Resume PDF.**
   - The `/resume` page has a print stylesheet.
-  - After `astro build`, `scripts/resume-pdf.mjs` opens the built page in headless Chromium (Playwright) and prints it to `dist/blake-bailey-resume.pdf`, so the PDF always matches the page.
-  - The build fails if the PDF is missing or empty.
+  - After `astro build`, `scripts/resume-pdf.mjs` serves `dist/` on a local port, opens `/resume/` in headless Chromium (Playwright) and prints it to `dist/blake-bailey-resume.pdf`, so the PDF always matches the page. Serving over HTTP, not opening the file directly, is what lets the page's root-relative stylesheets load.
+  - The build fails if the PDF is missing, if its extracted text lacks Blake's name and the section headings, or if it runs past three pages.
   - It aims for two pages.
-- **Resume content.** Built from Blake's current resume, with these changes:
+- **Resume content.** Re-authored into `src/content/` from Blake's current resume (a local file he has
+  already provided, never copied into the repository), with these changes:
   - the header carries `blake@blakells.dev`, `blakells.dev` and `github.com/Blakells`;
   - the job-application project is named Preflight and links the repository, and the 50+ live applications are attributed to the private predecessor;
   - Lantern Hollow is added as a project;
@@ -272,8 +282,8 @@ the full-page mockups next to it show the layout, apart from the featured-card c
   - no figures about Blake's finances;
   - Education is the TESU degree, expected March 2027, then one line of earlier coursework: computer science at Francis Marion University (2020-2021) and software engineering at Western Governors University (2026). There are no completion percentages, and the licenses line stays.
 - **Deploy.**
-  - On every push to `main`, a GitHub Actions workflow installs, builds (including the PDF) and runs the checks in section 7.
-  - Only if all of them pass does it publish to GitHub Pages with Astro's official action and GitHub's Pages deployment.
+  - On every push to `main`, a GitHub Actions workflow builds the site once, including the PDF, and runs the checks in section 7 against that build.
+  - Only if all of them pass does it publish that same build with GitHub's Pages actions (`upload-pages-artifact`, then `deploy-pages`). Astro's official action uses these same actions; building once means the files deployed are exactly the files checked.
   - A failed check means the live site stays as it was.
 
 ## 7. Quality checks
@@ -285,9 +295,10 @@ On every push and pull request:
 - the internal link check over the built site;
 - an accessibility scan of every page in headless Chromium, with axe, with no violations allowed;
 - Lighthouse on the home, Work, Preflight and resume pages: performance 95 or higher, accessibility 100;
-- the content check. The build fails if the built site or the PDF contains:
+- the content check. The build fails if any file under `src/` or `public/`, any built page, or the
+  PDF's extracted text contains:
   - any `@gmail.com` address;
-  - a dollar amount, or a phrase that sizes Blake's finances (for example "-figure");
+  - a dollar sign followed by a digit, or a word ending in "-figure" (as in "six-figure");
   - the name "ApplyPilot" outside the credit line;
   - a placeholder ("TODO", "TBD", "lorem").
 
@@ -311,7 +322,8 @@ those in section 2.
 
 | When | Item |
 |---|---|
-| Now | Cloudflare Email Routing for `blake@blakells.dev`, and the GitHub domain verification TXT record. |
+| Now | Confirm the public address (proposed: `blake@blakells.dev`) and set up Cloudflare Email Routing for it, with the catch-all. |
+| Now | Add `blakells.dev` as a verified domain in his GitHub account settings and put the TXT record it gives into Cloudflare. |
 | Before launch | Approval or edits on the About copy; optionally a headshot and a racing photo. |
 | Before launch | A sentence or two on how the data logger changed his riding. |
 | Before launch | What he has actually done with local models so far. |
@@ -321,7 +333,8 @@ those in section 2.
 
 ## 9. Launch
 
-Each outward step happens only after Blake says yes to that step at the time:
+Before these steps, the domain is verified in Blake's GitHub account (section 8). Each outward step
+happens only after Blake says yes to that step at the time:
 
 1. Build and check locally; Blake reviews the site on a local preview.
 2. Push the site to a new `main` branch of `Blakells/blakells.github.io`, and make `main` the
