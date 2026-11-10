@@ -1,6 +1,6 @@
 # Portfolio site: design
 
-Date: 2026-11-10. Status: written for Blake's review; nothing is built yet.
+Date: 2026-11-10. Status: approved by Blake on 2026-11-10, with his edits; nothing is built yet.
 
 This is the design for blakells.dev, Blake Bailey's personal site. It was agreed section by section
 during brainstorming (pages, look, build and deploy, quality and launch); this document records
@@ -31,7 +31,7 @@ CMS, a race-telemetry case study page, and any repository not named in this spec
 
 | Path | Content |
 |---|---|
-| `/` | The C1 hero (section 4); two featured project cards, Preflight and Lantern Hollow; a strip of earlier work; a short About blurb with the in-progress inference server line; the latest posts; a contact line. |
+| `/` | The C1 hero (section 4); two featured project cards, Preflight and Lantern Hollow; a strip of earlier work; a short About blurb with the inference server line; the latest posts; a contact line. |
 | `/work` | Preflight and Lantern Hollow as full cards, then the earlier work as compact rows. |
 | `/work/preflight` | The flagship case study (below). |
 | `/work/lantern-hollow-game` | A short project page (below). The game itself stays at `/lantern-hollow/`. |
@@ -60,7 +60,7 @@ Writing and Contact. The footer shows the email, GitHub and RSS links and a one-
   - Preflight: "An AI agent that fills job applications, with dry runs enforced inside the browser." Tags: Python, Claude Code, Playwright. Stat line: the test count and "CI on Linux + macOS".
   - Lantern Hollow: a small cozy dungeon crawler in plain JavaScript and Canvas 2D, with a link to play it.
 - **Earlier work.** A compact strip linking to `/work`.
-- **About blurb.** Two or three sentences, plus the facts list: location, remote (US), and "Building a local inference server (4× RTX 6000 Pro)".
+- **About blurb.** Two or three sentences, plus the facts list: location, remote (US), and "Built a local inference server (4× RTX 6000 Pro)".
 - **Writing.** The latest two posts.
 - **Contact line.** Email and GitHub.
 
@@ -118,11 +118,10 @@ they are updated in one edit.
 - **Off the keyboard: racing.**
   - WERA/ASRA motorcycle road racing in the 2026 season, at VIR, Barber, Road Atlanta, Roebling Road and Carolina Motorsports Park.
   - How the AiM data logger made him a better rider: math channels that showed missed downshifts, clutch slip and a lean-angle asymmetry.
-  - A short account of tracing a season-long brake fade to its root cause by ruling out parts one at a time, presented as the same method he uses on software.
   - Volunteer riding coach.
   - One photo, if Blake supplies one.
 - **Investing.** Nearly ten years of self-directed investing, since 2017. No amounts and no figures, anywhere on the site.
-- **Local models.** "Building a local inference server (4× RTX 6000 Pro)." It changes to past tense once the server runs. The site claims only the self-hosting experience Blake confirms.
+- **Local models.** "Built a local inference server (4× RTX 6000 Pro)." The site claims only the self-hosting experience Blake confirms.
 - **Education.** Bachelor's degree, Thomas Edison State University, expected March 2027. "Expected" is removed once the degree is conferred. The About copy may say he is two courses from finishing.
 
 ### Earlier work
@@ -151,7 +150,7 @@ go up:
 2. "Testing an agent that must never submit": the fake LLM, the guard tests against real Chromium,
    and CI.
 
-A post about the inference server comes after the server is built.
+A post about the inference server can follow later.
 
 ### Contact
 
@@ -173,7 +172,7 @@ PDF. Mail to the domain reaches him through Cloudflare Email Routing (section 5)
   - Blake's resume;
   - Blake's own answers.
   No metric is invented or rounded up.
-- Anything not finished is worded as in progress ("building", "expected") until Blake says it is done.
+- Anything not finished is worded as in progress (the degree is "expected") until Blake says it is done.
 - Text drafted by subagents is checked against the sources above before Blake sees it.
 - No dollar figures or other figures about Blake's finances, and no personal email address.
 - The name "ApplyPilot" appears only in the credit to the upstream project.
@@ -278,8 +277,9 @@ This section and section 2 are the authority; the mockups only illustrate them.
   - the header carries `blake@blakells.dev`, `blakells.dev` and `github.com/Blakells`;
   - the job-application project is named Preflight and links the repository, and the 50+ live applications are attributed to the private predecessor;
   - Lantern Hollow is added as a project;
-  - the inference server appears as in progress;
+  - the local inference server is added, worded as built;
   - no figures about Blake's finances;
+  - the brake-fade bullet is left out of the race telemetry project, as it is on the About page;
   - Education is the TESU degree, expected March 2027, then one line of earlier coursework: computer science at Francis Marion University (2020-2021) and software engineering at Western Governors University (2026). There are no completion percentages, and the licenses line stays.
 - **Deploy.**
   - On every push to `main`, a GitHub Actions workflow builds the site once, including the PDF, and runs the checks in section 7 against that build.
@@ -329,7 +329,7 @@ those in section 2.
 | Before launch | What he has actually done with local models so far. |
 | Before launch | Review of the two posts and the resume page. |
 | Optional | A line on how he made Lantern Hollow. |
-| Later | Word when the inference server runs, and when the degree is conferred. |
+| Later | Word when the degree is conferred. |
 
 ## 9. Launch
 
@@ -353,7 +353,6 @@ their "About" boxes.
 
 Content changes are Markdown or YAML edits that redeploy on push. Planned updates:
 
-- the inference server line moves to past tense when it runs;
 - "expected" comes off the degree when it is conferred;
 - new posts as Blake writes them.
 
