@@ -3296,6 +3296,7 @@ experience:
     dates: 2017 – Present
     bullets:
       - Managed a personal investment portfolio full time for nearly 10 years.
+      - Self-funded my living expenses from personal investment returns, with no outside capital, advisors, or employer.
       - Researched and deployed capital across decentralized finance (DeFi) and on-chain protocols, including yield farming, active trading, and long-term positions.
       - Made every allocation, entry, and exit decision independently through market cycles that included multiple major drawdowns.
 projects:
