@@ -9,6 +9,13 @@ describe('findViolations', () => {
     expect(ids('write to blake@blakells.dev')).toEqual([]);
   });
 
+  it('flags phone numbers and tel: links, but not dates or counts', () => {
+    expect(ids('call (555) 010-0199')).toEqual(['phone']);
+    expect(ids('call 555-010-0199 or 555.010.0199')).toEqual(['phone', 'phone']);
+    expect(ids('<a href="tel:+15550100199">')).toEqual(['phone']);
+    expect(ids('2026-11-10, 805 tests, 1440 × 900')).toEqual([]);
+  });
+
   it('flags phrases that size finances, but not ordinary words', () => {
     expect(ids('a six-figure result')).toEqual(['finance-size']);
     expect(ids('configure the figure; project-figure class')).toEqual([]);

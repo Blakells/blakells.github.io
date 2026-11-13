@@ -20,6 +20,11 @@ describe('site facts', () => {
     expect(site.email).toBe('blake@blakells.dev');
   });
 
+  it('lists LinkedIn and no phone number', () => {
+    expect(site.linkedin.url).toBe('https://www.linkedin.com/in/blakells/');
+    expect(site).not.toHaveProperty('phone');
+  });
+
   it('states the inference server as built and the degree as expected', () => {
     expect(site.inferenceServer).toBe('Built a local inference server (4× RTX 6000 Pro)');
     expect(site.degree.status).toBe('Expected March 2027');

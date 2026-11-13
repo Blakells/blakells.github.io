@@ -88,10 +88,9 @@ describe('ContactStrip', () => {
     expect(html).not.toContain('tel:');
   });
 
-  it('adds phone and location in the full version', async () => {
+  it('adds location in the full version, and never a phone number', async () => {
     const html = await container.renderToString(ContactStrip, { props: { full: true } });
-    expect(html).toContain('href="tel:+18436161069"');
-    expect(html).toContain('(843) 616-1069');
     expect(html).toContain('Florence, SC');
+    expect(html).not.toContain('tel:');
   });
 });

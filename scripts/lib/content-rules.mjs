@@ -6,6 +6,7 @@
 /** @type {Rule[]} */
 export const RULES = [
   { id: 'personal-email', message: 'a personal Gmail address', pattern: /@gmail\.com/gi },
+  { id: 'phone', message: 'a phone number or tel: link', pattern: /tel:|\(\d{3}\)\s?\d{3}[-.\s\u2011]\d{4}\b|\b\d{3}[-.\u2011]\d{3}[-.\u2011]\d{4}\b/gi },
   { id: 'finance-size', message: "a phrase that sizes Blake's finances", pattern: /\b(?:four|five|six|seven|eight|nine|ten)-figure\b/gi },
   { id: 'money', message: 'a dollar amount', pattern: /\$\s?\d/g, proseOnly: true },
   {

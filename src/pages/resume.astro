@@ -4,7 +4,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { resume } from '../lib/resume';
 import { site } from '../lib/site';
 
-const contact = [site.location, site.phone, site.email, new URL(site.url).host, `github.com/${site.github.handle}`];
+const contact = [
+  site.location,
+  site.email,
+  new URL(site.url).host,
+  `github.com/${site.github.handle}`,
+  `linkedin.com/in/${site.linkedin.handle}`,
+];
 ---
 <BaseLayout
   title="Resume · Blake Bailey"

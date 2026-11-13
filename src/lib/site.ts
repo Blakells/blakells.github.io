@@ -9,7 +9,7 @@ const Site = z.object({
   url: z.url(),
   email: z.email(),
   github: z.object({ handle: z.string(), url: z.url() }),
-  phone: z.string(),
+  linkedin: z.object({ handle: z.string(), url: z.url() }),
   location: z.string(),
   work: z.string(),
   inferenceServer: z.string(),

@@ -1,14 +1,14 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-test('the contact page lists the four ways to reach Blake, and no form', async ({ page }) => {
+test('the contact page lists email, GitHub and location, with no phone number and no form', async ({ page }) => {
   await page.goto('/contact/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Contact');
   const main = page.locator('main');
   await expect(main.getByRole('link', { name: 'blake@blakells.dev' })).toHaveAttribute('href', 'mailto:blake@blakells.dev');
   await expect(main.getByRole('link', { name: 'github.com/Blakells' })).toHaveAttribute('href', 'https://github.com/Blakells');
-  await expect(main.getByRole('link', { name: '(843) 616-1069' })).toHaveAttribute('href', 'tel:+18436161069');
   await expect(main).toContainText('Florence, SC');
+  await expect(main.locator('a[href^="tel:"]')).toHaveCount(0);
   await expect(page.locator('form')).toHaveCount(0);
 });
 

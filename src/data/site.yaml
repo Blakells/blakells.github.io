@@ -7,7 +7,9 @@ email: blake@blakells.dev
 github:
   handle: Blakells
   url: https://github.com/Blakells
-phone: (843) 616-1069
+linkedin:
+  handle: blakells
+  url: https://www.linkedin.com/in/blakells/
 location: Florence, SC
 work: Open to remote roles in the US
 inferenceServer: Built a local inference server (4× RTX 6000 Pro)

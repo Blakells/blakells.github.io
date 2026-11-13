@@ -39,7 +39,7 @@ CMS, a race-telemetry case study page, and any repository not named in this spec
 | `/resume` | The resume as a page, with a link to the PDF built from it (section 6). |
 | `/writing` | The post index, with an RSS feed at `/rss.xml`. |
 | `/writing/<slug>` | One page per post. |
-| `/contact` | Email, GitHub, phone and city, as plain links. No form. |
+| `/contact` | Email, GitHub and city, as plain links. No phone number and no form. |
 | 404 | A short "off track" page in the site's style, linking home and to the Work page. |
 
 Page paths must never match the name of a GitHub repository that publishes its own Pages site.
@@ -158,8 +158,9 @@ The page lists:
 
 - `blake@blakells.dev`
 - github.com/Blakells
-- (843) 616-1069
 - Florence, SC, open to remote roles in the US
+
+No phone number appears anywhere on the site or in the PDF.
 
 Blake's personal Gmail address appears nowhere: not on the site, not in its source and not in the
 PDF. Mail to the domain reaches him through Cloudflare Email Routing (section 5).
@@ -274,7 +275,7 @@ This section and section 2 are the authority; the mockups only illustrate them.
   - It aims for two pages.
 - **Resume content.** Re-authored into `src/content/` from Blake's current resume (a local file he has
   already provided, never copied into the repository), with these changes:
-  - the header carries `blake@blakells.dev`, `blakells.dev` and `github.com/Blakells`;
+  - the header carries Florence, SC, `blake@blakells.dev`, `blakells.dev`, `github.com/Blakells` and `linkedin.com/in/blakells`, and no phone number;
   - the job-application project is named Preflight and links the repository, and the 50+ live applications are attributed to the private predecessor;
   - Lantern Hollow is added as a project;
   - the local inference server is added, worded as built;

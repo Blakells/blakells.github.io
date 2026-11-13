@@ -9,6 +9,7 @@ test.describe('resume page', () => {
     for (const name of SECTIONS) await expect(page.getByRole('heading', { level: 2, name })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Download the PDF' })).toHaveAttribute('href', '/blake-bailey-resume.pdf');
     await expect(page.locator('main')).toContainText('blake@blakells.dev');
+    await expect(page.locator('main')).toContainText('linkedin.com/in/blakells');
   });
 
   test('prints without the site header, footer or download link', async ({ page }) => {

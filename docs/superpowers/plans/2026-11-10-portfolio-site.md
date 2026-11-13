@@ -568,6 +568,11 @@ describe('site facts', () => {
     expect(site.email).toBe('blake@blakells.dev');
   });
 
+  it('lists LinkedIn and no phone number', () => {
+    expect(site.linkedin.url).toBe('https://www.linkedin.com/in/blakells/');
+    expect(site).not.toHaveProperty('phone');
+  });
+
   it('states the inference server as built and the degree as expected', () => {
     expect(site.inferenceServer).toBe('Built a local inference server (4× RTX 6000 Pro)');
     expect(site.degree.status).toBe('Expected March 2027');
@@ -613,7 +618,9 @@ email: blake@blakells.dev
 github:
   handle: Blakells
   url: https://github.com/Blakells
-phone: (843) 616-1069
+linkedin:
+  handle: blakells
+  url: https://www.linkedin.com/in/blakells/
 location: Florence, SC
 work: Open to remote roles in the US
 inferenceServer: Built a local inference server (4× RTX 6000 Pro)
@@ -641,7 +648,7 @@ const Site = z.object({
   url: z.url(),
   email: z.email(),
   github: z.object({ handle: z.string(), url: z.url() }),
-  phone: z.string(),
+  linkedin: z.object({ handle: z.string(), url: z.url() }),
   location: z.string(),
   work: z.string(),
   inferenceServer: z.string(),
@@ -656,7 +663,7 @@ export const site: Site = parseYamlData(raw, Site, 'src/data/site.yaml');
 - [ ] **Step 6: Run the test to see it pass**
 
 Run: `npx vitest run tests/unit/site.test.ts`
-Expected: `Tests  5 passed (5)`.
+Expected: `Tests  6 passed (6)`.
 
 - [ ] **Step 7: Check the Preflight test count is still current**
 
@@ -1272,11 +1279,10 @@ describe('ContactStrip', () => {
     expect(html).not.toContain('tel:');
   });
 
-  it('adds phone and location in the full version', async () => {
+  it('adds location in the full version, and never a phone number', async () => {
     const html = await container.renderToString(ContactStrip, { props: { full: true } });
-    expect(html).toContain('href="tel:+18436161069"');
-    expect(html).toContain('(843) 616-1069');
     expect(html).toContain('Florence, SC');
+    expect(html).not.toContain('tel:');
   });
 });
 ```
@@ -1462,16 +1468,14 @@ const { title, href, date, description } = Astro.props;
 import { site } from '../lib/site';
 
 interface Props {
-  /** Include phone and location (the Contact page). */
+  /** Include location (the Contact page). */
   full?: boolean;
 }
 const { full = false } = Astro.props;
-const tel = `+1${site.phone.replace(/\D/g, '')}`;
 ---
 <ul class="contact">
   <li><span class="contact__label">Email</span><a href={`mailto:${site.email}`}>{site.email}</a></li>
   <li><span class="contact__label">GitHub</span><a href={site.github.url}>github.com/{site.github.handle}</a></li>
-  {full && <li><span class="contact__label">Phone</span><a href={`tel:${tel}`}>{site.phone}</a></li>}
   {full && <li><span class="contact__label">Location</span><span>{site.location} · {site.work}</span></li>}
 </ul>
 
@@ -3120,14 +3124,14 @@ export const PAGES: string[] = [
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-test('the contact page lists the four ways to reach Blake, and no form', async ({ page }) => {
+test('the contact page lists email, GitHub and location, with no phone number and no form', async ({ page }) => {
   await page.goto('/contact/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Contact');
   const main = page.locator('main');
   await expect(main.getByRole('link', { name: 'blake@blakells.dev' })).toHaveAttribute('href', 'mailto:blake@blakells.dev');
   await expect(main.getByRole('link', { name: 'github.com/Blakells' })).toHaveAttribute('href', 'https://github.com/Blakells');
-  await expect(main.getByRole('link', { name: '(843) 616-1069' })).toHaveAttribute('href', 'tel:+18436161069');
   await expect(main).toContainText('Florence, SC');
+  await expect(main.locator('a[href^="tel:"]')).toHaveCount(0);
   await expect(page.locator('form')).toHaveCount(0);
 });
 
@@ -3153,7 +3157,7 @@ Expected: FAIL, both pages are missing.
 import ContactStrip from '../components/ContactStrip.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Contact · Blake Bailey" description="How to reach Blake Bailey: email, GitHub and phone. Open to remote roles in the US.">
+<BaseLayout title="Contact · Blake Bailey" description="How to reach Blake Bailey: email and GitHub. Open to remote roles in the US.">
   <div class="container contact-page">
     <h1>Contact</h1>
     <p class="lede">Email is the best way to reach me. I'm open to remote roles in the US in automation and AI agent engineering.</p>
@@ -3408,6 +3412,7 @@ test.describe('resume page', () => {
     for (const name of SECTIONS) await expect(page.getByRole('heading', { level: 2, name })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Download the PDF' })).toHaveAttribute('href', '/blake-bailey-resume.pdf');
     await expect(page.locator('main')).toContainText('blake@blakells.dev');
+    await expect(page.locator('main')).toContainText('linkedin.com/in/blakells');
   });
 
   test('prints without the site header, footer or download link', async ({ page }) => {
@@ -3468,7 +3473,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { resume } from '../lib/resume';
 import { site } from '../lib/site';
 
-const contact = [site.location, site.phone, site.email, new URL(site.url).host, `github.com/${site.github.handle}`];
+const contact = [
+  site.location,
+  site.email,
+  new URL(site.url).host,
+  `github.com/${site.github.handle}`,
+  `linkedin.com/in/${site.linkedin.handle}`,
+];
 ---
 <BaseLayout
   title="Resume · Blake Bailey"
@@ -3962,16 +3973,14 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Create `.htmlvalidate.json`**
 
-Two style rules are off, both for markup that is valid HTML: `void-style`, because MDX writes `<img … />`
-while Astro templates write `<meta …>`; and `tel-non-breaking`, because a non-breaking hyphen in the phone
-number would break copying it into a dialer.
+One style rule is off, for markup that is valid HTML: `void-style`, because MDX writes `<img … />` while
+Astro templates write `<meta …>`.
 
 ```json
 {
   "extends": ["html-validate:recommended"],
   "rules": {
-    "void-style": "off",
-    "tel-non-breaking": "off"
+    "void-style": "off"
   }
 }
 ```
