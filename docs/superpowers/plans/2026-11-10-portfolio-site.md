@@ -3998,7 +3998,7 @@ Astro templates write `<meta …>`.
         "http://localhost/work/preflight/",
         "http://localhost/resume/"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
