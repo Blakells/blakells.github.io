@@ -6,6 +6,7 @@ import { site } from '../lib/site';
 
 const contact = [
   site.location,
+  site.citizenship,
   site.email,
   new URL(site.url).host,
   `github.com/${site.github.handle}`,
@@ -90,7 +91,7 @@ const contact = [
     .resume { padding: 0 !important; gap: 10pt !important; max-width: none !important; }
     .resume h1 { font-size: 20pt; color: #111 !important; }
     /* Normal letter-spacing in print: spaced-out capitals come out of the PDF as "S U M M A R Y". */
-    .resume h2 { font-size: 9pt !important; letter-spacing: normal !important; color: #111 !important; border-bottom-color: #999 !important; padding-bottom: 2pt; }
+    .resume h2 { font-size: 9pt !important; letter-spacing: normal !important; color: #111 !important; border-bottom-color: #999 !important; padding-bottom: 2pt; break-after: avoid; }
     .resume h3, .resume dt, .resume strong { color: #111 !important; }
     .resume p, .resume li, .resume dd, .resume__contact, .entry__dates, .entry__link { color: #222 !important; }
     .resume a { color: #111 !important; text-decoration: none; }

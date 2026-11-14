@@ -11,6 +11,7 @@ const Site = z.object({
   github: z.object({ handle: z.string(), url: z.url() }),
   linkedin: z.object({ handle: z.string(), url: z.url() }),
   location: z.string(),
+  citizenship: z.string(),
   work: z.string(),
   inferenceServer: z.string(),
   degree: z.object({ name: z.string(), school: z.string(), status: z.string() }),

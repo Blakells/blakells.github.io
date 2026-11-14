@@ -11,6 +11,7 @@ linkedin:
   handle: blakells
   url: https://www.linkedin.com/in/blakells/
 location: Florence, SC
+citizenship: US citizen
 work: Open to remote roles in the US
 inferenceServer: Built a local inference server (4× RTX 6000 Pro)
 degree:

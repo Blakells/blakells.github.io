@@ -275,8 +275,8 @@ This section and section 2 are the authority; the mockups only illustrate them.
   - It aims for two pages.
 - **Resume content.** Re-authored into `src/content/` from Blake's current resume (a local file he has
   already provided, never copied into the repository), with these changes:
-  - the header carries Florence, SC, `blake@blakells.dev`, `blakells.dev`, `github.com/Blakells` and `linkedin.com/in/blakells`, and no phone number;
-  - the job-application project is named Preflight and links the repository, and the 50+ live applications are attributed to the private predecessor;
+  - the header carries Florence, SC, US citizen, `blake@blakells.dev`, `blakells.dev`, `github.com/Blakells` and `linkedin.com/in/blakells`, and no phone number;
+  - the job-application project is named Preflight, leads the Experience section as Blake's own open-source project (Creator & Lead Developer), and links the repository, and the 50+ live applications are attributed to the private predecessor;
   - Lantern Hollow is added as a project;
   - the local inference server is added, worded as built;
   - no figures about Blake's finances;

@@ -8,8 +8,9 @@ describe('resume content', () => {
     expect(all).not.toMatch(/\{[a-zA-Z]+\}/);
   });
 
-  it('names the project Preflight, links it, and attributes the live applications to its predecessor', () => {
-    const preflight = resume.projects.find((p) => p.title === 'Preflight');
+  it('leads Experience with Preflight, links it, and attributes the live applications to its predecessor', () => {
+    const preflight = resume.experience[0];
+    expect(preflight.org).toBe('Preflight, open-source AI job-application agent');
     expect(preflight?.link?.href).toBe('https://github.com/Blakells/preflight');
     expect(all).toContain('private predecessor');
     expect(all).not.toContain('ApplyPilot');

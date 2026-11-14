@@ -20,6 +20,10 @@ describe('site facts', () => {
     expect(site.email).toBe('blake@blakells.dev');
   });
 
+  it('states US citizenship', () => {
+    expect(site.citizenship).toBe('US citizen');
+  });
+
   it('lists LinkedIn and no phone number', () => {
     expect(site.linkedin.url).toBe('https://www.linkedin.com/in/blakells/');
     expect(site).not.toHaveProperty('phone');

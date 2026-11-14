@@ -18,6 +18,18 @@ skills:
   - group: Finance
     items: DeFi and on-chain protocols, yield farming, active trading, long-term investing, independent market research
 experience:
+  - title: Creator & Lead Developer
+    org: Preflight, open-source AI job-application agent
+    dates: 2026 – Present
+    link: { label: github.com/Blakells/preflight, href: "https://github.com/Blakells/preflight" }
+    bullets:
+      - Built an end-to-end pipeline that discovers job postings, scores them against a profile with an LLM, tailors the resume and cover letter, renders PDFs, and hands each application to a Claude Code browser agent.
+      - "Enforced dry runs inside the browser: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself, so the agent cannot route around it."
+      - Supports Ashby, Greenhouse, Lever, iCIMS, Workday and other applicant tracking systems through tested helper scripts and per-ATS playbooks.
+      - Got past bot detection with the Patchright stealth driver, natural mouse input, CAPTCHA-solving services and proxy routing.
+      - "Covered by {preflightTests} offline tests, with a fake LLM server and the guard exercised in real Chromium; {preflightCi}."
+      - Its private predecessor has submitted 50+ live applications.
+      - Led development by directing AI coding agents with a test-first workflow and an independent AI code reviewer.
   - title: Independent Investor
     org: Self-Employed
     place: Florence, SC
@@ -28,18 +40,6 @@ experience:
       - Researched and deployed capital across decentralized finance (DeFi) and on-chain protocols, including yield farming, active trading, and long-term positions.
       - Made every allocation, entry, and exit decision independently through market cycles that included multiple major drawdowns.
 projects:
-  - title: Preflight
-    org: AI job-application agent, open source
-    dates: "2026"
-    link: { label: github.com/Blakells/preflight, href: "https://github.com/Blakells/preflight" }
-    bullets:
-      - Built an end-to-end pipeline that discovers job postings, scores them against a profile with an LLM, tailors the resume and cover letter, renders PDFs, and hands each application to a Claude Code browser agent.
-      - "Enforced dry runs inside the browser: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself, so the agent cannot route around it."
-      - Supports Ashby, Greenhouse, Lever, iCIMS, Workday and other applicant tracking systems through tested helper scripts and per-ATS playbooks.
-      - Got past bot detection with the Patchright stealth driver, natural mouse input, CAPTCHA-solving services and proxy routing.
-      - "Covered by {preflightTests} offline tests, with a fake LLM server and the guard exercised in real Chromium; {preflightCi}."
-      - Its private predecessor has submitted 50+ live applications.
-      - Led development by directing AI coding agents with a test-first workflow and an independent AI code reviewer.
   - title: Lantern Hollow
     org: Browser game
     dates: "2026"

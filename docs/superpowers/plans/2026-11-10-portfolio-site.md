@@ -568,6 +568,10 @@ describe('site facts', () => {
     expect(site.email).toBe('blake@blakells.dev');
   });
 
+  it('states US citizenship', () => {
+    expect(site.citizenship).toBe('US citizen');
+  });
+
   it('lists LinkedIn and no phone number', () => {
     expect(site.linkedin.url).toBe('https://www.linkedin.com/in/blakells/');
     expect(site).not.toHaveProperty('phone');
@@ -622,6 +626,7 @@ linkedin:
   handle: blakells
   url: https://www.linkedin.com/in/blakells/
 location: Florence, SC
+citizenship: US citizen
 work: Open to remote roles in the US
 inferenceServer: Built a local inference server (4× RTX 6000 Pro)
 degree:
@@ -650,6 +655,7 @@ const Site = z.object({
   github: z.object({ handle: z.string(), url: z.url() }),
   linkedin: z.object({ handle: z.string(), url: z.url() }),
   location: z.string(),
+  citizenship: z.string(),
   work: z.string(),
   inferenceServer: z.string(),
   degree: z.object({ name: z.string(), school: z.string(), status: z.string() }),
@@ -663,7 +669,7 @@ export const site: Site = parseYamlData(raw, Site, 'src/data/site.yaml');
 - [ ] **Step 6: Run the test to see it pass**
 
 Run: `npx vitest run tests/unit/site.test.ts`
-Expected: `Tests  6 passed (6)`.
+Expected: `Tests  7 passed (7)`.
 
 - [ ] **Step 7: Check the Preflight test count is still current**
 
@@ -3237,8 +3243,9 @@ describe('resume content', () => {
     expect(all).not.toMatch(/\{[a-zA-Z]+\}/);
   });
 
-  it('names the project Preflight, links it, and attributes the live applications to its predecessor', () => {
-    const preflight = resume.projects.find((p) => p.title === 'Preflight');
+  it('leads Experience with Preflight, links it, and attributes the live applications to its predecessor', () => {
+    const preflight = resume.experience[0];
+    expect(preflight.org).toBe('Preflight, open-source AI job-application agent');
     expect(preflight?.link?.href).toBe('https://github.com/Blakells/preflight');
     expect(all).toContain('private predecessor');
     expect(all).not.toContain('ApplyPilot');
@@ -3293,6 +3300,18 @@ skills:
   - group: Finance
     items: DeFi and on-chain protocols, yield farming, active trading, long-term investing, independent market research
 experience:
+  - title: Creator & Lead Developer
+    org: Preflight, open-source AI job-application agent
+    dates: 2026 – Present
+    link: { label: github.com/Blakells/preflight, href: "https://github.com/Blakells/preflight" }
+    bullets:
+      - Built an end-to-end pipeline that discovers job postings, scores them against a profile with an LLM, tailors the resume and cover letter, renders PDFs, and hands each application to a Claude Code browser agent.
+      - "Enforced dry runs inside the browser: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself, so the agent cannot route around it."
+      - Supports Ashby, Greenhouse, Lever, iCIMS, Workday and other applicant tracking systems through tested helper scripts and per-ATS playbooks.
+      - Got past bot detection with the Patchright stealth driver, natural mouse input, CAPTCHA-solving services and proxy routing.
+      - "Covered by {preflightTests} offline tests, with a fake LLM server and the guard exercised in real Chromium; {preflightCi}."
+      - Its private predecessor has submitted 50+ live applications.
+      - Led development by directing AI coding agents with a test-first workflow and an independent AI code reviewer.
   - title: Independent Investor
     org: Self-Employed
     place: Florence, SC
@@ -3303,18 +3322,6 @@ experience:
       - Researched and deployed capital across decentralized finance (DeFi) and on-chain protocols, including yield farming, active trading, and long-term positions.
       - Made every allocation, entry, and exit decision independently through market cycles that included multiple major drawdowns.
 projects:
-  - title: Preflight
-    org: AI job-application agent, open source
-    dates: "2026"
-    link: { label: github.com/Blakells/preflight, href: "https://github.com/Blakells/preflight" }
-    bullets:
-      - Built an end-to-end pipeline that discovers job postings, scores them against a profile with an LLM, tailors the resume and cover letter, renders PDFs, and hands each application to a Claude Code browser agent.
-      - "Enforced dry runs inside the browser: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself, so the agent cannot route around it."
-      - Supports Ashby, Greenhouse, Lever, iCIMS, Workday and other applicant tracking systems through tested helper scripts and per-ATS playbooks.
-      - Got past bot detection with the Patchright stealth driver, natural mouse input, CAPTCHA-solving services and proxy routing.
-      - "Covered by {preflightTests} offline tests, with a fake LLM server and the guard exercised in real Chromium; {preflightCi}."
-      - Its private predecessor has submitted 50+ live applications.
-      - Led development by directing AI coding agents with a test-first workflow and an independent AI code reviewer.
   - title: Lantern Hollow
     org: Browser game
     dates: "2026"
@@ -3413,6 +3420,7 @@ test.describe('resume page', () => {
     await expect(page.getByRole('link', { name: 'Download the PDF' })).toHaveAttribute('href', '/blake-bailey-resume.pdf');
     await expect(page.locator('main')).toContainText('blake@blakells.dev');
     await expect(page.locator('main')).toContainText('linkedin.com/in/blakells');
+    await expect(page.locator('main')).toContainText('US citizen');
   });
 
   test('prints without the site header, footer or download link', async ({ page }) => {
@@ -3475,6 +3483,7 @@ import { site } from '../lib/site';
 
 const contact = [
   site.location,
+  site.citizenship,
   site.email,
   new URL(site.url).host,
   `github.com/${site.github.handle}`,
@@ -3559,7 +3568,7 @@ const contact = [
     .resume { padding: 0 !important; gap: 10pt !important; max-width: none !important; }
     .resume h1 { font-size: 20pt; color: #111 !important; }
     /* Normal letter-spacing in print: spaced-out capitals come out of the PDF as "S U M M A R Y". */
-    .resume h2 { font-size: 9pt !important; letter-spacing: normal !important; color: #111 !important; border-bottom-color: #999 !important; padding-bottom: 2pt; }
+    .resume h2 { font-size: 9pt !important; letter-spacing: normal !important; color: #111 !important; border-bottom-color: #999 !important; padding-bottom: 2pt; break-after: avoid; }
     .resume h3, .resume dt, .resume strong { color: #111 !important; }
     .resume p, .resume li, .resume dd, .resume__contact, .entry__dates, .entry__link { color: #222 !important; }
     .resume a { color: #111 !important; text-decoration: none; }

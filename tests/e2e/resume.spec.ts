@@ -10,6 +10,7 @@ test.describe('resume page', () => {
     await expect(page.getByRole('link', { name: 'Download the PDF' })).toHaveAttribute('href', '/blake-bailey-resume.pdf');
     await expect(page.locator('main')).toContainText('blake@blakells.dev');
     await expect(page.locator('main')).toContainText('linkedin.com/in/blakells');
+    await expect(page.locator('main')).toContainText('US citizen');
   });
 
   test('prints without the site header, footer or download link', async ({ page }) => {
