@@ -15,7 +15,7 @@ const projects = await featuredProjects();
 const earlier = await earlierWork();
 const posts = (await publishedPosts()).slice(0, 2);
 
-// The featured cards are CH·01-02; the sections after them continue the count.
+// The featured cards are CH·01-03; the sections after them continue the count.
 const sectionNames = ['Earlier work', 'About', ...(posts.length > 0 ? ['Writing'] : []), 'Contact'];
 const ch: Record<string, string> = Object.fromEntries(sectionNames.map((name, i) => [name, channel(projects.length + i)]));
 ---

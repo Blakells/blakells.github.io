@@ -5,12 +5,13 @@ test.describe('work index', () => {
     await page.goto('/work/');
   });
 
-  test('shows both featured projects linking to their pages', async ({ page }) => {
+  test('shows the three featured projects linking to their pages', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Work');
     const links = page.locator('#featured article h3 a');
-    await expect(links).toHaveText(['Preflight', 'Lantern Hollow']);
+    await expect(links).toHaveText(['Preflight', 'Lantern Hollow', 'Tidewood Isle']);
     await expect(links.first()).toHaveAttribute('href', '/work/preflight/');
-    await expect(links.last()).toHaveAttribute('href', '/work/lantern-hollow-game/');
+    await expect(links.nth(1)).toHaveAttribute('href', '/work/lantern-hollow-game/');
+    await expect(links.last()).toHaveAttribute('href', '/work/tidewood-isle/');
   });
 
   test('lists seven earlier projects, with demos only for the two that still run', async ({ page }) => {
@@ -55,5 +56,13 @@ test.describe('Lantern Hollow page', () => {
     await page.goto('/work/lantern-hollow-game/');
     await expect(page.getByRole('link', { name: 'Play Lantern Hollow' })).toHaveAttribute('href', '/lantern-hollow/');
     await expect(page.locator('img[src^="/images/lantern-hollow/"]')).toHaveCount(2);
+  });
+});
+
+test.describe('Tidewood Isle page', () => {
+  test('links to the game and shows both screenshots', async ({ page }) => {
+    await page.goto('/work/tidewood-isle/');
+    await expect(page.getByRole('link', { name: 'Play Tidewood Isle' })).toHaveAttribute('href', '/tidewood-isle/');
+    await expect(page.locator('img[src^="/images/tidewood-isle/"]')).toHaveCount(2);
   });
 });

@@ -1,0 +1,49 @@
+---
+title: Tidewood Isle
+label: Browser game
+summary: A cozy 3D island to build on, decorate and fish from, running in the browser on plain JavaScript and Three.js.
+description: "Tidewood Isle, a cozy 3D island game for the browser in plain JavaScript and Three.js: block building, fishing, neighbours and pets, with touch controls at phone size."
+order: 3
+year: 2026
+tags: [JavaScript, Three.js, WebGL]
+repo: https://github.com/Blakells/tidewood-isle
+play: /tidewood-isle/
+---
+import Button from '../../components/Button.astro';
+
+<p><Button href="/tidewood-isle/">Play Tidewood Isle</Button></p>
+
+<figure>
+  <img src="/images/tidewood-isle/desktop.jpg" alt="Tidewood Isle on desktop: a small character in a flower crown stands on a sunny beach beside a striped tent, a campfire, a sandcastle and a beach umbrella, with palm trees behind, a trading post to the right, and a clock, a to-do list, a minimap and a hotbar at the edges." width="1440" height="900" />
+  <figcaption>The first morning on the beach, on desktop.</figcaption>
+</figure>
+
+## The game
+
+You wash ashore on a small island with a backpack, a few tools and a tent. From there it is yours to
+shape: chop wood and build a house block by block, step under the roof to decorate inside, comb the beach
+for shells each morning, fish off the pier, plant a garden, and get to know the three neighbours and the
+otter who runs the trading post. There is no way to lose and nothing to hurry for.
+
+- 40 kinds of building block, and about 70 pieces of furniture and decoration.
+- 13 fish across the sea and the lagoon, some only at night, plus butterflies and glowbugs to catch.
+- Cats, dogs, bunnies, crabs, ducklings and foxes to befriend and adopt.
+- Day and night, rain and rainbows, shooting stars to wish on, and a rowboat out to the lighthouse.
+
+## How it's built
+
+- Plain JavaScript with Three.js, with no build step: 23 script files, loaded in order.
+- The island is a voxel grid generated from a seed. A save stores the seed and the cells that differ from
+  it, so it stays small enough for the browser's local storage.
+- Only the things you build are drawn as blocks. The ground is drawn as one sloped surface from averaged
+  corner heights, trees get round canopies, and shells, flowers and small decorations are rounded shapes.
+- No art or audio files. Every texture is painted onto a canvas when the page loads, and the sound is
+  synthesised with the Web Audio API.
+- On a touch screen it switches to touch controls: a walking stick under the left thumb, tap to use or
+  place, hold to dig, and buttons for the rest. It ships a web app manifest and icon for a phone's Home
+  Screen.
+
+<figure class="phone-shot">
+  <img src="/images/tidewood-isle/phone.jpg" alt="Tidewood Isle at phone size: the same beach camp in an upright view, with round touch buttons for waving, using and jumping above the hotbar." width="780" height="1688" loading="lazy" />
+  <figcaption>At phone size, with the touch controls.</figcaption>
+</figure>

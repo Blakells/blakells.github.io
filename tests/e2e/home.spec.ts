@@ -13,11 +13,12 @@ test.describe('home page', () => {
     await expect(page.getByRole('link', { name: 'Get in touch' })).toHaveAttribute('href', '/contact/');
   });
 
-  test('features Preflight then Lantern Hollow, with the test-count stat', async ({ page }) => {
+  test('features Preflight, Lantern Hollow and Tidewood Isle, with the test-count stat', async ({ page }) => {
     const titles = page.locator('#featured article h3');
-    await expect(titles).toHaveText(['Preflight', 'Lantern Hollow']);
+    await expect(titles).toHaveText(['Preflight', 'Lantern Hollow', 'Tidewood Isle']);
     await expect(page.locator('#featured article').first()).toContainText(/\d+ tests · CI on Linux \+ macOS/);
     await expect(page.locator('#featured').getByRole('link', { name: 'Play Lantern Hollow' })).toHaveAttribute('href', '/lantern-hollow/');
+    await expect(page.locator('#featured').getByRole('link', { name: 'Play Tidewood Isle' })).toHaveAttribute('href', '/tidewood-isle/');
   });
 
   test('lists the seven earlier projects and links to them', async ({ page }) => {

@@ -14,8 +14,8 @@
     "test:e2e": "playwright test",
     "check:content": "node scripts/check-content.mjs",
     "check:html": "html-validate \"dist/**/*.html\"",
-    "check:links": "linkinator dist --recurse --skip '^https?://(?!127\\.0\\.0\\.1)' --skip '127\\.0\\.0\\.1:\\d+/lantern-hollow/'",
-    "check:links:external": "linkinator dist --recurse --retry --skip '127\\.0\\.0\\.1:\\d+/lantern-hollow/'",
+    "check:links": "linkinator dist --recurse --skip '^https?://(?!127\\.0\\.0\\.1)' --skip '127\\.0\\.0\\.1:\\d+/(lantern-hollow|tidewood-isle)/'",
+    "check:links:external": "linkinator dist --recurse --retry --skip '127\\.0\\.0\\.1:\\d+/(lantern-hollow|tidewood-isle)/'",
     "check:lighthouse": "lhci autorun",
     "check": "npm run check:types && npm run test:unit && npm run build && npm run check:content && npm run check:html && npm run check:links && npm run test:e2e && npm run check:lighthouse",
     "make:og": "node scripts/make-og.mjs"
