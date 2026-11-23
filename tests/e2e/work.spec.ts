@@ -65,4 +65,10 @@ test.describe('Tidewood Isle page', () => {
     await expect(page.getByRole('link', { name: 'Play Tidewood Isle' })).toHaveAttribute('href', '/tidewood-isle/');
     await expect(page.locator('img[src^="/images/tidewood-isle/"]')).toHaveCount(2);
   });
+
+  test('says how it was made', async ({ page }) => {
+    await page.goto('/work/tidewood-isle/');
+    await expect(page.getByRole('heading', { name: 'How I made it' })).toBeVisible();
+    await expect(page.locator('main')).toContainText('I made Tidewood Isle with Claude Code');
+  });
 });
