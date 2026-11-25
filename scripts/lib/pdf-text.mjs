@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
-export const RESUME_HEADINGS = ['Blake Bailey', 'Summary', 'Experience', 'Technical Projects', 'Education'];
+export const RESUME_HEADINGS = ['Blake Bailey', 'Summary', 'Certification & Education', 'Skills', 'Experience', 'Projects'];
 export const RESUME_MAX_PAGES = 3;
 
 /**

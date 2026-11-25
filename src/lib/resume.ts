@@ -12,14 +12,21 @@ const Entry = z.object({
   bullets: z.array(z.string()).default([]),
 });
 
+/** One labelled line under Projects & Activities: plain text, or linked items each followed by a short note. */
+const Note = z.object({
+  label: z.string(),
+  text: z.string().optional(),
+  items: z.array(z.object({ label: z.string(), href: z.url(), note: z.string() })).default([]),
+});
+
 const Resume = z.object({
+  headline: z.string(),
+  availability: z.string(),
   summary: z.string(),
+  education: z.array(Entry).min(1),
   skills: z.array(z.object({ group: z.string(), items: z.string() })).min(1),
   experience: z.array(Entry).min(1),
-  projects: z.array(Entry).min(1),
-  activities: z.array(z.string()).min(1),
-  education: z.array(Entry).min(1),
-  licenses: z.string(),
+  projectNotes: z.array(Note).min(1),
 });
 
 export type Resume = z.infer<typeof Resume>;

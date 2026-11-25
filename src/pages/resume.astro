@@ -4,9 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { resume } from '../lib/resume';
 import { site } from '../lib/site';
 
+const where = [site.location, site.citizenship, resume.availability];
 const contact = [
-  site.location,
-  site.citizenship,
   site.email,
   new URL(site.url).host,
   `github.com/${site.github.handle}`,
@@ -15,11 +14,13 @@ const contact = [
 ---
 <BaseLayout
   title="Resume · Blake Bailey"
-  description="Blake Bailey's resume: AI agents and automation, Preflight, race telemetry and vehicle diagnostics, and education."
+  description="Blake Bailey's resume: CompTIA Security+, Preflight, Umbreonics, projects and education."
 >
   <article class="container resume">
     <header class="resume__header">
       <h1>{site.name}</h1>
+      <p class="resume__headline">{resume.headline}</p>
+      <p class="resume__contact">{where.join(' · ')}</p>
       <p class="resume__contact">{contact.join(' · ')}</p>
       <p class="resume__download"><a href="/blake-bailey-resume.pdf">Download the PDF</a></p>
     </header>
@@ -27,6 +28,11 @@ const contact = [
     <section aria-labelledby="r-summary">
       <h2 id="r-summary">Summary</h2>
       <p>{resume.summary}</p>
+    </section>
+
+    <section aria-labelledby="r-education">
+      <h2 id="r-education">Certification &amp; Education</h2>
+      {resume.education.map((entry) => <ResumeEntry entry={entry} />)}
     </section>
 
     <section aria-labelledby="r-skills">
@@ -44,28 +50,27 @@ const contact = [
     </section>
 
     <section aria-labelledby="r-projects">
-      <h2 id="r-projects">Technical Projects</h2>
-      {resume.projects.map((entry) => <ResumeEntry entry={entry} />)}
+      <h2 id="r-projects">Projects &amp; Activities</h2>
+      {resume.projectNotes.map((note) => (
+        <p class="resume__note">
+          <strong>{note.label}:</strong>{' '}
+          {note.text}
+          {note.items.map((item, i) => (
+            <Fragment>
+              <a href={item.href}>{item.label}</a>, {item.note}{i < note.items.length - 1 ? '; ' : '.'}
+            </Fragment>
+          ))}
+        </p>
+      ))}
     </section>
 
-    <section aria-labelledby="r-activities">
-      <h2 id="r-activities">Leadership &amp; Athletics</h2>
-      <ul>
-        {resume.activities.map((activity) => <li>{activity}</li>)}
-      </ul>
-    </section>
-
-    <section aria-labelledby="r-education">
-      <h2 id="r-education">Education &amp; Licenses</h2>
-      {resume.education.map((entry) => <ResumeEntry entry={entry} />)}
-      <p><strong>Licenses:</strong> {resume.licenses}</p>
-    </section>
   </article>
 </BaseLayout>
 
 <style>
   .resume { display: grid; gap: var(--space-6); padding-block: var(--space-7) 0; max-width: 56rem; margin-inline: auto; }
   .resume__header { display: grid; gap: var(--space-2); }
+  .resume__headline { color: var(--color-heading); font-weight: 600; }
   .resume__contact { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-text); overflow-wrap: anywhere; }
   .resume section { display: grid; gap: var(--space-4); }
   .resume h2 {
@@ -84,18 +89,23 @@ const contact = [
 </style>
 
 <style is:global>
-  @page { size: Letter; margin: 0.5in 0.6in; }
+  @page { size: Letter; margin: 0.36in 0.55in; }
   @media print {
-    html, body { background: #fff !important; color: #1a1a1a !important; font-size: 9pt; line-height: 1.4; font-variant-ligatures: none; }
+    html, body { background: #fff !important; color: #1a1a1a !important; font-size: 8.7pt; line-height: 1.3; font-variant-ligatures: none; }
     .skip-link, .site-header, .site-footer, .resume__download { display: none !important; }
-    .resume { padding: 0 !important; gap: 10pt !important; max-width: none !important; }
-    .resume h1 { font-size: 20pt; color: #111 !important; }
+    .resume { padding: 0 !important; gap: 5pt !important; max-width: none !important; }
+    .resume__header { gap: 2pt !important; }
+    /* Wide enough that the longest skill group label stays on one line. */
+    .resume__skills { gap: 1pt !important; }
+    .resume__skills div { grid-template-columns: 12.5rem minmax(0, 1fr) !important; }
+    .resume h1 { font-size: 18pt; line-height: 1.1; color: #111 !important; }
     /* Normal letter-spacing in print: spaced-out capitals come out of the PDF as "S U M M A R Y". */
     .resume h2 { font-size: 9pt !important; letter-spacing: normal !important; color: #111 !important; border-bottom-color: #999 !important; padding-bottom: 2pt; break-after: avoid; }
     .resume h3, .resume dt, .resume strong { color: #111 !important; }
     .resume p, .resume li, .resume dd, .resume__contact, .entry__dates, .entry__link { color: #222 !important; }
+    .resume__headline { color: #111 !important; }
     .resume a { color: #111 !important; text-decoration: none; }
-    .resume section { gap: 5pt !important; }
+    .resume section { gap: 3pt !important; }
     .resume ul { gap: 1pt !important; }
     .entry { gap: 2pt !important; }
   }
