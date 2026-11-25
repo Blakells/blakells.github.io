@@ -12,6 +12,11 @@ try {
   const page = await browser.newPage();
   await page.goto(`${server.url}/resume/`, { waitUntil: 'networkidle' });
   await page.emulateMedia({ media: 'print' });
+  // The print styles switch to the bundled fonts; wait for them so the PDF is not set in a fallback.
+  await page.evaluate(async () => {
+    await Promise.all([...document.fonts].map((face) => face.load()));
+    await document.fonts.ready;
+  });
   await page.pdf({ path: OUT, preferCSSPageSize: true, printBackground: false });
 } finally {
   await browser.close();
