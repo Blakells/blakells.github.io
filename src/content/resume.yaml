@@ -20,7 +20,7 @@ skills:
   - group: Systems & networking
     items: Linux, macOS, home networking, PC and workstation hardware builds
   - group: Scripting & automation
-    items: Python, JavaScript, Git, GitHub Actions, pytest, Playwright, LLM APIs, Claude Code (subagents, MCP)
+    items: Python, JavaScript, Git, GitHub Actions, pytest, Playwright, LLM APIs, Claude Code and MCP
   - group: Troubleshooting & data
     items: Root-cause diagnostics, CAN bus reverse engineering, telemetry analysis, technical documentation
 experience:
