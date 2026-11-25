@@ -1,76 +1,69 @@
 # Blake's resume, re-authored for the site and the PDF. {tokens} come from src/data/site.yaml.
+headline: CompTIA Security+ · Entry-level IT support and security · Python automation
+availability: Open to remote roles, and on-site or hybrid near Florence
 summary: >-
-  Self-directed problem solver focused on AI agents and automation, with a hands-on background in vehicle
-  systems and data analysis and nearly 10 years of independent investing. I learn new tools quickly, take
-  systems apart to understand how they work, and keep at a problem until I have the root cause. I built
-  Preflight, an open-source job-application agent whose dry runs are enforced inside the browser, and I run
-  telemetry analysis for a competitive motorcycle racing program.
+  CompTIA Security+ certified (November 2026), with a bachelor's degree due March 2027, seeking an
+  entry-level IT support or security analyst role. Built and published Preflight, an open-source Python
+  automation agent with {preflightTests} tests and least-privilege controls, and founded Umbreonics LLC,
+  which is building a private AI platform on its own GPU hardware.
+education:
+  - title: CompTIA Security+
+    dates: November 2026
+  - title: B.A. in Liberal Studies
+    org: Thomas Edison State University
+    dates: "{degreeStatus}"
+    bullets:
+      - Earlier coursework in computer science (Francis Marion University) and software engineering (Western Governors University)
 skills:
-  - group: AI & automation
-    items: >-
-      Claude Code and agentic workflows (subagents, MCP tools), LLM APIs, prompt design, Python,
-      Playwright/Patchright browser automation, Flask, OAuth integrations, multi-model code review,
-      self-hosted local LLM inference
-  - group: Data & analysis
-    items: AiM RaceStudio 3 (custom math channels), telemetry analysis, performance simulation, CSV data pipelines, video data overlays
-  - group: Vehicle systems
-    items: CAN bus reverse engineering, diagnostic troubleshooting, brake hydraulics, motorcycle build and maintenance, car and truck repair
-  - group: Finance
-    items: DeFi and on-chain protocols, yield farming, active trading, long-term investing, independent market research
+  - group: Security
+    items: Least privilege, access control, credential management, threat and incident response basics
+  - group: Systems & networking
+    items: Linux, macOS, home networking, PC and workstation hardware builds
+  - group: Scripting & automation
+    items: Python, JavaScript, Git, GitHub Actions, pytest, Playwright, LLM APIs, Claude Code (subagents, MCP)
+  - group: Troubleshooting & data
+    items: Root-cause diagnostics, CAN bus reverse engineering, telemetry analysis, technical documentation
 experience:
-  - title: Creator & Lead Developer
+  - title: Lead Developer and Maintainer
     org: Preflight, open-source AI job-application agent
     dates: 2026 – Present
     link: { label: github.com/Blakells/preflight, href: "https://github.com/Blakells/preflight" }
     bullets:
-      - Built an end-to-end pipeline that discovers job postings, scores them against a profile with an LLM, tailors the resume and cover letter, renders PDFs, and hands each application to a Claude Code browser agent.
-      - "Enforced dry runs inside the browser: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself, so the agent cannot route around it."
-      - Supports Ashby, Greenhouse, Lever, iCIMS, Workday and other applicant tracking systems through tested helper scripts and per-ATS playbooks.
-      - Got past bot detection with the Patchright stealth driver, natural mouse input, CAPTCHA-solving services and proxy routing.
-      - "Covered by {preflightTests} offline tests, with a fake LLM server and the guard exercised in real Chromium; {preflightCi}."
-      - Its private predecessor has submitted 50+ live applications.
-      - Led development by directing AI coding agents with a test-first workflow and an independent AI code reviewer.
+      - Built and published a Python pipeline that finds job postings, scores them with an LLM, tailors a resume and cover letter, and hands each application to a browser agent that fills in the employer's form.
+      - "Enforced dry runs in the browser instead of trusting the prompt: a guard script in every page and frame blocks the final submit, and a hook refuses JavaScript the agent writes itself."
+      - "Ran the agent with least privilege: an explicit tool allow-list, LLM API keys removed from its environment, and a unique generated password per site kept in the OS credential store."
+      - "Verified by {preflightTests} offline tests, including the guard exercised in headless Chromium, with {preflightCi}."
+      - Directed AI coding agents with a test-first workflow and independent AI code review. Began from the open-source ApplyPilot 0.3.0 by Pickle-Pixel; most of the current code is new, with provenance documented per file.
+  - title: Founder
+    org: Umbreonics LLC, private AI for small businesses
+    place: Florence, SC
+    dates: October 2026 – Present
+    link: { label: umbreonics.com, href: "https://umbreonics.com" }
+    bullets:
+      - Formed a South Carolina LLC to give small businesses private AI on hardware the company owns, so client data stays off third-party clouds. Going live January 2027.
+      - "Designing and building the platform: a Threadripper PRO workstation with four NVIDIA RTX PRO 6000 Blackwell GPUs (384 GB of GPU memory) and custom liquid cooling."
+      - "Shipped umbreonics.com with AI coding agents: an Astro site gated by unit and end-to-end tests, HTML and link checks, Lighthouse budgets and CI deploys."
   - title: Independent Investor
-    org: Self-Employed
+    org: Self-employed
     place: Florence, SC
     dates: 2017 – Present
     bullets:
-      - Managed a personal investment portfolio full time for nearly 10 years.
-      - Self-funded my living expenses from personal investment returns, with no outside capital, advisors, or employer.
-      - Researched and deployed capital across decentralized finance (DeFi) and on-chain protocols, including yield farming, active trading, and long-term positions.
-      - Made every allocation, entry, and exit decision independently through market cycles that included multiple major drawdowns.
-projects:
-  - title: Lantern Hollow
-    org: Browser game
-    dates: "2026"
-    link: { label: blakells.dev/lantern-hollow, href: "https://blakells.dev/lantern-hollow/" }
-    bullets:
-      - A small, cozy dungeon crawler in plain JavaScript and Canvas 2D, with no build step and no dependencies.
-      - Procedurally generated, seedable floors, a light radius that shrinks as the lantern's oil burns, a minimap, and touch controls; installs to an iPhone Home Screen.
-  - title: Local inference server
-    dates: "2026"
-    bullets:
-      - "{inferenceServer} to run language models on my own hardware."
-  - title: Race Telemetry Analysis & Vehicle Diagnostics
-    dates: "2026"
-    bullets:
-      - Analyzed AiM Solo 2 DL data in RaceStudio 3 using custom math channels. Pinpointed missed downshifts, clutch slip, and a lean-angle asymmetry costing lap time.
-      - Built a custom CSV workflow that overlays wheel speed and slip percentage on onboard video for lap-by-lap review.
-      - Ran physics-based simulations and engine performance analysis to compare race platforms and set realistic power and weight targets.
-      - Resolved a clutch switch fault capping RPM, and a tire circumference mismatch that skewed speed data.
-      - "Converted a street motorcycle to race spec: ride-by-wire throttle, master cylinder, brake lines, suspension, exhaust, and ECU tune."
-      - Background in CAN bus reverse engineering and vehicle telemetry.
-activities:
-  - Competitive motorcycle road racer, WERA/ASRA, 2026 season. Raced and tested at VIR, Barber, Road Atlanta, Roebling Road, and Carolina Motorsports Park.
-  - Volunteer riding coach. Coach riders on riding technique and bike setup.
-  - Premier-level travel soccer at age 16, the top tier of youth club soccer, where college scouts recruit.
-education:
-  - title: Bachelor's degree
-    org: Thomas Edison State University
-    dates: "{degreeStatus}"
-  - title: Earlier coursework
-    dates: ""
-    bullets:
-      - Computer science, Francis Marion University (2020 – 2021)
-      - Software engineering, Western Governors University (2026)
-licenses: WERA competition racing license; South Carolina motorcycle endorsement
+      - Managed a personal investment portfolio full time for nearly 10 years, covering living expenses from returns.
+projectNotes:
+  - label: Race telemetry
+    text: analyzed AiM race data with custom math channels and root-caused two faults (clutch switch, speed data).
+  - label: Security practice
+    text: hands-on security labs and CTF challenges; set up and maintain the home network and devices.
+  - label: Also shipped, with the same workflow
+    items:
+      - label: blakells.dev
+        href: "https://blakells.dev"
+        note: a tested, CI-deployed portfolio site
+      - label: Tidewood Isle
+        href: "https://blakells.dev/tidewood-isle/"
+        note: a 3D browser game on Three.js
+      - label: Lantern Hollow
+        href: "https://blakells.dev/lantern-hollow/"
+        note: a browser game in plain JavaScript
+  - label: Activities
+    text: motorcycle road racer, WERA and ASRA (2026 season); volunteer riding coach.

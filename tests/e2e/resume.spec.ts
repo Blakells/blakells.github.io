@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const SECTIONS = ['Summary', 'Skills', 'Experience', 'Technical Projects', 'Leadership & Athletics', 'Education & Licenses'];
+const SECTIONS = ['Summary', 'Certification & Education', 'Skills', 'Experience', 'Projects & Activities'];
 
 test.describe('resume page', () => {
   test('shows every section and links the PDF', async ({ page }) => {
@@ -11,6 +11,8 @@ test.describe('resume page', () => {
     await expect(page.locator('main')).toContainText('blake@blakells.dev');
     await expect(page.locator('main')).toContainText('linkedin.com/in/blakells');
     await expect(page.locator('main')).toContainText('US citizen');
+    await expect(page.locator('main')).toContainText('CompTIA Security+');
+    await expect(page.getByRole('link', { name: 'Tidewood Isle' })).toHaveAttribute('href', 'https://blakells.dev/tidewood-isle/');
   });
 
   test('prints without the site header, footer or download link', async ({ page }) => {
