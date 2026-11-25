@@ -12,8 +12,8 @@ linkedin:
   url: https://www.linkedin.com/in/blakells/
 location: Florence, SC
 citizenship: US citizen
-work: Open to remote roles in the US
-inferenceServer: Built a local inference server (4× RTX 6000 Pro)
+work: Open to remote roles in the US, and on-site or hybrid near Florence
+inferenceServer: Building a local inference server (4× NVIDIA RTX PRO 6000 Blackwell)
 degree:
   name: Bachelor's degree
   school: Thomas Edison State University

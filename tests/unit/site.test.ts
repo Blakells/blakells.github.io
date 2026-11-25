@@ -29,8 +29,8 @@ describe('site facts', () => {
     expect(site).not.toHaveProperty('phone');
   });
 
-  it('states the inference server as built and the degree as expected', () => {
-    expect(site.inferenceServer).toBe('Built a local inference server (4× RTX 6000 Pro)');
+  it('states the inference server as in progress and the degree as expected', () => {
+    expect(site.inferenceServer).toBe('Building a local inference server (4× NVIDIA RTX PRO 6000 Blackwell)');
     expect(site.degree.status).toBe('Expected March 2027');
   });
 

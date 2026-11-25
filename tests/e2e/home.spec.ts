@@ -26,8 +26,8 @@ test.describe('home page', () => {
     await expect(page.getByRole('link', { name: 'All earlier work' })).toHaveAttribute('href', '/work/#earlier');
   });
 
-  test('states the inference server as built', async ({ page }) => {
-    await expect(page.getByText('Built a local inference server (4× RTX 6000 Pro)')).toBeVisible();
+  test('states the inference server as in progress', async ({ page }) => {
+    await expect(page.getByText('Building a local inference server (4× NVIDIA RTX PRO 6000 Blackwell)')).toBeVisible();
   });
 
   test('shows the latest posts', async ({ page }) => {
